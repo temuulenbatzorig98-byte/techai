@@ -1,0 +1,220 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x", "rhel-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─────────────────────────────────────────────
+// USERS
+// ─────────────────────────────────────────────
+model User {
+  id           String   @id @default(cuid())
+  email        String?  @unique
+  phone        String?  @unique
+  name         String
+  avatarUrl    String?
+  role         Role     @default(STUDENT)
+  isVerified   Boolean  @default(false)
+  passwordHash String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  enrollments Enrollment[]
+  payments    Payment[]
+  progress    LessonProgress[]
+  sessions    Session[]
+  otpCodes    OTPCode[]
+}
+
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model OTPCode {
+  id        String   @id @default(cuid())
+  userId    String
+  code      String
+  type      OTPType
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum OTPType {
+  EMAIL_VERIFY
+  PHONE_VERIFY
+  PASSWORD_RESET
+}
+
+// ─────────────────────────────────────────────
+// COURSES
+// ─────────────────────────────────────────────
+model Course {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  title         String
+  titleMn       String
+  description   String
+  descriptionMn String
+  thumbnailUrl  String?
+  price         Int
+  originalPrice Int?
+  level         Level    @default(BEGINNER)
+  category      String
+  language      String   @default("mn")
+  isPublished   Boolean  @default(false)
+  isFeatured    Boolean  @default(false)
+  rating        Float    @default(0)
+  totalStudents Int      @default(0)
+  totalLessons  Int      @default(0)
+  totalDuration Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sections    Section[]
+  enrollments Enrollment[]
+  payments    Payment[]
+}
+
+enum Level {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+}
+
+model Section {
+  id       String   @id @default(cuid())
+  courseId String
+  title    String
+  order    Int
+  course   Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons  Lesson[]
+}
+
+model Lesson {
+  id          String   @id @default(cuid())
+  sectionId   String
+  title       String
+  titleMn     String?
+  description String?
+  videoKey    String?
+  duration    Int      @default(0)
+  order       Int
+  isFree      Boolean  @default(false)
+  isPublished Boolean  @default(false)
+
+  section   Section          @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  resources Resource[]
+  progress  LessonProgress[]
+}
+
+model Resource {
+  id       String       @id @default(cuid())
+  lessonId String
+  name     String
+  fileKey  String
+  fileType ResourceType
+  lesson   Lesson       @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+}
+
+enum ResourceType {
+  PDF
+  ZIP
+  IMAGE
+  OTHER
+}
+
+// ─────────────────────────────────────────────
+// ENROLLMENTS & PROGRESS
+// ─────────────────────────────────────────────
+model Enrollment {
+  id          String    @id @default(cuid())
+  userId      String
+  courseId    String
+  enrolledAt  DateTime  @default(now())
+  completedAt DateTime?
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course      Course    @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, courseId])
+}
+
+model LessonProgress {
+  id          String   @id @default(cuid())
+  userId      String
+  lessonId    String
+  watchedTime Int      @default(0)
+  completed   Boolean  @default(false)
+  lastWatchAt DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+}
+
+// ─────────────────────────────────────────────
+// PAYMENTS (QPAY)
+// ─────────────────────────────────────────────
+model Payment {
+  id             String        @id @default(cuid())
+  userId         String
+  courseId       String
+  amount         Int
+  currency       String        @default("MNT")
+  status         PaymentStatus @default(PENDING)
+  qpayInvoiceId  String?       @unique
+  qpayQrText     String?
+  couponId       String?
+  discountAmount Int?
+  paidAt         DateTime?
+  expiresAt      DateTime?
+  metadata       Json?
+  createdAt      DateTime      @default(now())
+
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  coupon Coupon? @relation(fields: [couponId], references: [id])
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  EXPIRED
+  REFUNDED
+}
+
+model Coupon {
+  id            String       @id @default(cuid())
+  code          String       @unique
+  discountType  DiscountType
+  discountValue Int
+  maxUses       Int?
+  usedCount     Int          @default(0)
+  validFrom     DateTime
+  validUntil    DateTime
+  isActive      Boolean      @default(true)
+  createdAt     DateTime     @default(now())
+  payments      Payment[]
+}
+
+enum DiscountType {
+  PERCENT
+  FIXED
+}
