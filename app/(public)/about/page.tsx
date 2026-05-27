@@ -53,9 +53,9 @@ export default function AboutPage() {
         <div className="bg-[#111827] border border-white/10 rounded-2xl p-8 mb-16">
           <h2 className="font-syne text-2xl font-bold text-white mb-6">Холбоо барих</h2>
           <div className="space-y-4 text-gray-400">
-            <p>📧 Имэйл: <a href="mailto:info@autolearn.mn" className="text-purple-400 hover:text-purple-300">info@autolearn.mn</a></p>
+            <p>📧 Имэйл: <a href="mailto:info@negun.store" className="text-purple-400 hover:text-purple-300">info@negun.store</a></p>
             <p>📱 Telegram: <a href="https://t.me/autolearn_mn" className="text-purple-400 hover:text-purple-300">@autolearn_mn</a></p>
-            <p>🌐 Вэбсайт: autolearn.mn</p>
+            <p>🌐 Вэбсайт: negun.store</p>
           </div>
         </div>
 

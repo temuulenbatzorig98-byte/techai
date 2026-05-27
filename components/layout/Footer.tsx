@@ -30,7 +30,7 @@ export function Footer() {
           <div>
             <p className="text-sm font-semibold text-white mb-4">Холбоо барих</p>
             <div className="space-y-2 text-sm text-gray-400">
-              <p>📧 info@autolearn.mn</p>
+              <p>📧 info@negun.store</p>
               <p>📱 Telegram: @autolearn_mn</p>
             </div>
           </div>

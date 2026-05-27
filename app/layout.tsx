@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'AutoLearn AI',
     description: 'Монголын AI боловсролын платформ',
-    url: 'https://autolearn.mn',
+    url: 'https://negun.store',
     siteName: 'AutoLearn AI',
     locale: 'mn_MN',
     type: 'website',
