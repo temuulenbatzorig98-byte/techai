@@ -195,6 +195,14 @@ export default function AdminCourseDetailPage() {
     setTimeout(() => setMsg(''), 3500)
   }
 
+  const deleteCourse = async () => {
+    if (!confirm('Курсыг бүрмөсөн устгах уу? Бүх хичээл, бүлэг мөн устна.')) return
+    showLoader()
+    await fetch(`/api/admin/courses/${id}`, { method: 'DELETE' })
+    hideLoader()
+    router.push('/admin/courses')
+  }
+
   const togglePublish = async () => {
     if (!course) return
     setSaving(true)
@@ -305,6 +313,12 @@ export default function AdminCourseDetailPage() {
         </div>
         <div className="flex items-center gap-3">
           {msg && <span className="text-green-400 text-sm">{msg}</span>}
+          <button
+            onClick={deleteCourse}
+            className="px-4 py-2 rounded-xl text-sm font-semibold transition bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30"
+          >
+            Устгах
+          </button>
           <button
             onClick={togglePublish}
             disabled={saving}
