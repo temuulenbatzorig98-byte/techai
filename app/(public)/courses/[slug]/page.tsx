@@ -15,7 +15,7 @@ interface Props {
 
 export default async function CourseDetailPage({ params }: Props) {
   const course = await prisma.course.findUnique({
-    where: { slug: params.slug, isPublished: true },
+    where: { slug: params.slug.toLowerCase(), isPublished: true },
     include: {
       sections: {
         include: {
