@@ -40,7 +40,6 @@ export function Navbar() {
         <div className="hidden md:flex items-center gap-8">
           {[
             { href: '/courses', label: 'Курсууд' },
-            { href: '/pricing', label: 'Үнэ' },
             { href: '/about', label: 'Бидний тухай' },
           ].map(({ href, label }) => (
             <Link key={href} href={href} className="text-sm text-gray-400 hover:text-white transition">
@@ -96,7 +95,6 @@ export function Navbar() {
         <div className="md:hidden border-t border-white/10 bg-[#0d1220] px-4 py-4 space-y-2">
           {[
             { href: '/courses', label: 'Курсууд' },
-            { href: '/pricing', label: 'Үнэ' },
             { href: '/about', label: 'Бидний тухай' },
           ].map(({ href, label }) => (
             <Link key={href} href={href} className="block text-gray-300 py-2 hover:text-white" onClick={() => setMenuOpen(false)}>
