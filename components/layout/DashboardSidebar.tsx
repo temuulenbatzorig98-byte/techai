@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -38,7 +38,7 @@ export function DashboardSidebar({ role }: Props) {
 
       <aside className={`fixed left-0 top-0 h-full w-64 bg-[#111827] border-r border-white/10 z-40 flex flex-col transition-transform lg:translate-x-0 ${open ? 'translate-x-0' : '-translate-x-full'}`}>
         <div className="p-6 border-b border-white/10">
-          <Link href="/" className="font-syne text-lg font-bold gradient-text">AutoLearn AI</Link>
+          <Link href="/" className="font-syne text-lg font-bold gradient-text">Negun AI</Link>
           <p className="text-xs text-gray-500 mt-1">Оюутны хяналтын самбар</p>
         </div>
 

@@ -1,9 +1,11 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useLoading } from '@/components/layout/GlobalLoader'
 
 export function CourseUploadForm() {
   const router = useRouter()
+  const { show: showLoader, hide: hideLoader } = useLoading()
   const [form, setForm] = useState({
     title: '',
     titleMn: '',
@@ -30,6 +32,7 @@ export function CourseUploadForm() {
     e.preventDefault()
     setLoading(true)
     setError('')
+    showLoader()
     const res = await fetch('/api/courses', {
       method: 'POST',
       body: JSON.stringify({ ...form, price: Number(form.price), originalPrice: form.originalPrice ? Number(form.originalPrice) : undefined }),
@@ -37,7 +40,7 @@ export function CourseUploadForm() {
     })
     const data = await res.json()
     setLoading(false)
-    if (!res.ok) { setError(data.error); return }
+    if (!res.ok) { hideLoader(); setError(data.error); return }
     router.push(`/admin/courses/${data.course.id}`)
   }
 

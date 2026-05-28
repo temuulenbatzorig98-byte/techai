@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useState, useRef, useEffect } from 'react'
 
 interface Message {
@@ -9,7 +9,7 @@ interface Message {
 export function ChatWidget() {
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: 'Сайн байна уу! AutoLearn AI-д тавтай морилно уу 👋 Та ямар тусламж хэрэгтэй вэ?' },
+    { role: 'assistant', content: 'Сайн байна уу! Negun AI-д тавтай морилно уу 👋 Та ямар тусламж хэрэгтэй вэ?' },
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
@@ -51,7 +51,7 @@ export function ChatWidget() {
           <div className="bg-gradient-to-r from-purple-600/20 to-cyan-500/20 border-b border-white/10 p-3 flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center text-sm">🤖</div>
             <div>
-              <p className="text-white text-xs font-semibold">AutoLearn AI</p>
+              <p className="text-white text-xs font-semibold">Negun AI</p>
               <p className="text-green-400 text-[10px] flex items-center gap-1">
                 <span className="w-1.5 h-1.5 bg-green-400 rounded-full inline-block animate-pulse" />Online
               </p>

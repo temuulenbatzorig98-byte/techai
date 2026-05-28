@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -52,7 +52,7 @@ export default function ForgotPasswordPage() {
     <div className="min-h-screen hero-bg flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="font-syne text-2xl font-bold gradient-text">AutoLearn AI</Link>
+          <Link href="/" className="font-syne text-2xl font-bold gradient-text">Negun AI</Link>
         </div>
         <div className="bg-[#111827] border border-white/10 rounded-2xl p-8">
           <h1 className="font-syne text-xl font-bold text-white mb-6">Нууц үг сэргээх</h1>

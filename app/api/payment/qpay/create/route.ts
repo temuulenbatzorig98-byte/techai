@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { createQPAYInvoice } from '@/lib/qpay'
@@ -53,7 +53,7 @@ export async function POST(req: NextRequest) {
       invoiceCode: process.env.QPAY_INVOICE_CODE || 'AUTOLEARN_INVOICE',
       senderInvoiceNo,
       invoiceReceiverCode: session.userId,
-      invoiceDescription: `AutoLearn AI: ${course.titleMn || course.title}`,
+      invoiceDescription: `Negun AI: ${course.titleMn || course.title}`,
       amount,
       callbackUrl: `${process.env.NEXT_PUBLIC_URL}/api/payment/qpay/callback`,
     })

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -43,7 +43,7 @@ export function LoginContent() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="font-syne text-2xl font-bold gradient-text">
-            AutoLearn AI
+            Negun AI
           </Link>
           <p className="text-gray-400 mt-2">Тавтай морилно уу</p>
         </div>

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -59,7 +59,7 @@ export default function VerifyPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="font-syne text-2xl font-bold gradient-text">
-            AutoLearn AI
+            Negun AI
           </Link>
         </div>
 

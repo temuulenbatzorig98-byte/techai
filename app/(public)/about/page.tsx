@@ -1,4 +1,4 @@
-import { Navbar } from '@/components/layout/Navbar'
+﻿import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import Link from 'next/link'
 
@@ -13,7 +13,7 @@ export default function AboutPage() {
             Бидний <span className="gradient-text">тухай</span>
           </h1>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            AutoLearn AI — Монголын хамгийн дэвшилтэт AI боловсролын платформ
+            Negun AI — Монголын хамгийн дэвшилтэт AI боловсролын платформ
           </p>
         </div>
 

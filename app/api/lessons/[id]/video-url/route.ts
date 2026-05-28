@@ -32,6 +32,11 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     return NextResponse.json({ error: 'Видео олдсонгүй' }, { status: 404 })
   }
 
+  // If videoKey is an external URL (YouTube etc.), return it directly
+  if (lesson.videoKey.startsWith('https://') || lesson.videoKey.startsWith('http://')) {
+    return NextResponse.json({ url: lesson.videoKey, duration: lesson.duration })
+  }
+
   const url = await getPresignedVideoUrl(lesson.videoKey)
   return NextResponse.json({ url, duration: lesson.duration })
 }

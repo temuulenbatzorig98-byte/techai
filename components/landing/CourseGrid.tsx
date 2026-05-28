@@ -3,10 +3,10 @@ import Link from 'next/link'
 const FEATURED_COURSES = [
   {
     id: '1',
-    titleMn: 'AI Chatbot Бүтээх',
-    description: 'Claude API ашиглан хөгжлийн бизнес chatbot бүтээнэ',
-    price: 79000,
-    originalPrice: 120000,
+    titleMn: 'AI Chatbot бүтээх хичээл',
+    description: 'n8n, Telegram, Google ашиглан chatbot бүтээх • Код хуулж тавих • Бэлэн workflow авах',
+    price: 99000,
+    originalPrice: 150000,
     category: 'AI Chatbot',
     level: 'BEGINNER',
     totalStudents: 842,
@@ -16,29 +16,16 @@ const FEATURED_COURSES = [
   },
   {
     id: '2',
-    titleMn: 'n8n Workflow Автоматжуулалт',
-    description: 'n8n ашиглан бизнесийн процессыг бүрэн автоматжуул',
-    price: 99000,
-    originalPrice: 150000,
-    category: 'Автоматжуулалт',
-    level: 'INTERMEDIATE',
+    titleMn: 'AI Chatbot суулгуулах',
+    description: 'n8n, Telegram, Google ашиглан chatbot суулгуулах • 24/7 Телеграм хаалттай групп',
+    price: 199000,
+    originalPrice: 300000,
+    category: 'AI Chatbot',
+    level: 'BEGINNER',
     totalStudents: 631,
     totalLessons: 32,
     gradient: 'from-cyan-600 to-teal-600',
     icon: '⚡',
-  },
-  {
-    id: '3',
-    titleMn: 'Facebook Marketing AI',
-    description: 'AI ашиглан Facebook зар, агуулга автоматжуул',
-    price: 69000,
-    originalPrice: 100000,
-    category: 'Marketing',
-    level: 'BEGINNER',
-    totalStudents: 1204,
-    totalLessons: 18,
-    gradient: 'from-pink-600 to-rose-600',
-    icon: '📱',
   },
 ]
 
@@ -55,7 +42,7 @@ export function CourseGrid() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10 max-w-3xl mx-auto">
           {FEATURED_COURSES.map((c) => (
             <div key={c.id} className="group bg-[#111827] border border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/40 transition card-glow">
               <div className={`h-36 bg-gradient-to-br ${c.gradient} flex items-center justify-center`}>

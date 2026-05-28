@@ -1,4 +1,4 @@
-import Link from 'next/link'
+﻿import Link from 'next/link'
 
 export function Footer() {
   return (
@@ -6,7 +6,7 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <div className="font-syne text-xl font-bold gradient-text mb-3">AutoLearn AI</div>
+            <div className="font-syne text-xl font-bold gradient-text mb-3">Negun AI</div>
             <p className="text-sm text-gray-400 leading-relaxed">
               Монголын AI боловсролын хамгийн дэвшилтэт платформ. Ирээдүйг өнөөдрөөс эхэл.
             </p>
@@ -36,7 +36,7 @@ export function Footer() {
           </div>
         </div>
         <div className="border-t border-white/10 pt-6 text-center text-xs text-gray-500">
-          © 2025 AutoLearn AI. Бүх эрх хуулиар хамгаалагдсан.
+          © 2025 Negun AI. Бүх эрх хуулиар хамгаалагдсан.
         </div>
       </div>
     </footer>

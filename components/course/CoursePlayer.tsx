@@ -9,6 +9,25 @@ interface CoursePlayerProps {
   onComplete?: () => void
 }
 
+function getYouTubeEmbedUrl(url: string): string | null {
+  try {
+    const u = new URL(url)
+    if (u.hostname === 'youtu.be') {
+      return `https://www.youtube.com/embed${u.pathname}?rel=0`
+    }
+    if (u.hostname.includes('youtube.com')) {
+      if (u.pathname === '/watch') {
+        const v = u.searchParams.get('v')
+        if (v) return `https://www.youtube.com/embed/${v}?rel=0`
+      }
+      if (u.pathname.startsWith('/embed/')) {
+        return url
+      }
+    }
+  } catch {}
+  return null
+}
+
 export function CoursePlayer({ lessonId, videoUrl, startAt = 0, onProgress, onComplete }: CoursePlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const lastSaved = useRef(0)
@@ -45,6 +64,22 @@ export function CoursePlayer({ lessonId, videoUrl, startAt = 0, onProgress, onCo
       video.removeEventListener('ended', onEnded)
     }
   }, [startAt, saveProgress, onComplete])
+
+  const youtubeEmbedUrl = getYouTubeEmbedUrl(videoUrl)
+
+  if (youtubeEmbedUrl) {
+    return (
+      <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden">
+        <iframe
+          src={youtubeEmbedUrl}
+          className="w-full h-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          title="Хичээлийн видео"
+        />
+      </div>
+    )
+  }
 
   return (
     <div className="relative w-full aspect-video bg-black rounded-xl overflow-hidden">

@@ -1,4 +1,4 @@
-import { prisma } from './prisma'
+﻿import { prisma } from './prisma'
 import { OTPType } from '@prisma/client'
 
 export async function generateOTP(userId: string, type: OTPType): Promise<string> {
@@ -40,7 +40,7 @@ export async function sendOTPEmail(email: string, code: string, name: string) {
   const result = await resend.emails.send({
     from: process.env.EMAIL_FROM!,
     to: email,
-    subject: `AutoLearn AI - Баталгаажуулах код: ${code}`,
+    subject: `Negun AI - Баталгаажуулах код: ${code}`,
     html: `
       <div style="font-family: sans-serif; max-width: 480px; margin: 0 auto; background: #0d1220; color: #fff; padding: 32px; border-radius: 16px;">
         <h2 style="color: #06b6d4;">Сайн байна уу, ${name}!</h2>
