@@ -12,3 +12,14 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
   return NextResponse.json({ enrolled: !!enrollment, enrollment })
 }
+
+export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
+  const session = await getServerSession(req)
+  if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  await prisma.enrollment.deleteMany({
+    where: { userId: session.userId, courseId: params.id },
+  })
+
+  return NextResponse.json({ ok: true })
+}

@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { verifyToken } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
+import { UnenrollButton } from '@/components/dashboard/UnenrollButton'
 
 export default async function MyCoursesPage() {
   const token = cookies().get('auth_token')?.value
@@ -58,6 +59,7 @@ export default async function MyCoursesPage() {
                       Хичээл байхгүй
                     </span>
                   )}
+                  <UnenrollButton courseId={course.id} />
                 </div>
               </div>
             )
