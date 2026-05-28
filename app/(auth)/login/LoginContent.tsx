@@ -2,10 +2,12 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
+import { useLoading } from '@/components/layout/GlobalLoader'
 
 export function LoginContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { show: showLoader, hide: hideLoader } = useLoading()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -15,6 +17,7 @@ export function LoginContent() {
     e.preventDefault()
     setLoading(true)
     setError('')
+    showLoader()
 
     const res = await fetch('/api/auth/login', {
       method: 'POST',
@@ -22,9 +25,10 @@ export function LoginContent() {
       headers: { 'Content-Type': 'application/json' },
     })
     const data = await res.json()
-    setLoading(false)
 
     if (!res.ok) {
+      hideLoader()
+      setLoading(false)
       if (data.needsVerify) {
         router.push(`/verify?userId=${data.userId}`)
         return

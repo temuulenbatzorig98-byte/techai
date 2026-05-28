@@ -2,9 +2,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useLoading } from '@/components/layout/GlobalLoader'
 
 export default function ForgotPasswordPage() {
   const router = useRouter()
+  const { show: showLoader, hide: hideLoader } = useLoading()
   const [step, setStep] = useState<'email' | 'reset'>('email')
   const [email, setEmail] = useState('')
   const [userId, setUserId] = useState('')
@@ -18,6 +20,7 @@ export default function ForgotPasswordPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
+    showLoader()
     const res = await fetch('/api/auth/reset-password', {
       method: 'POST',
       body: JSON.stringify({ email }),
@@ -25,6 +28,7 @@ export default function ForgotPasswordPage() {
     })
     const data = await res.json()
     setLoading(false)
+    hideLoader()
     if (data.userId) {
       setUserId(data.userId)
       setStep('reset')
@@ -37,6 +41,7 @@ export default function ForgotPasswordPage() {
     e.preventDefault()
     setLoading(true)
     setError('')
+    showLoader()
     const res = await fetch('/api/auth/reset-password', {
       method: 'POST',
       body: JSON.stringify({ userId, code, newPassword: password }),
@@ -44,7 +49,7 @@ export default function ForgotPasswordPage() {
     })
     const data = await res.json()
     setLoading(false)
-    if (!res.ok) { setError(data.error); return }
+    if (!res.ok) { hideLoader(); setError(data.error); return }
     router.push('/login')
   }
 

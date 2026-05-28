@@ -1,7 +1,7 @@
 ﻿import type { Metadata } from 'next'
 import { Inter, Syne } from 'next/font/google'
 import './globals.css'
-import { GlobalLoader } from '@/components/layout/GlobalLoader'
+import { GlobalLoader, LoadingProvider } from '@/components/layout/GlobalLoader'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const syne = Syne({ subsets: ['latin'], variable: '--font-syne' })
@@ -25,8 +25,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="mn" className={`${inter.variable} ${syne.variable}`}>
       <body className={inter.className}>
-        <GlobalLoader />
-        {children}
+        <LoadingProvider>
+          <GlobalLoader />
+          {children}
+        </LoadingProvider>
       </body>
     </html>
   )

@@ -1,5 +1,4 @@
 import { AdminSidebar } from '@/components/layout/AdminSidebar'
-import { LoadingProvider } from '@/components/layout/GlobalLoader'
 import { cookies } from 'next/headers'
 import { verifyToken } from '@/lib/auth'
 import { redirect } from 'next/navigation'
@@ -10,11 +9,9 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!user || user.role !== 'ADMIN') redirect('/dashboard')
 
   return (
-    <LoadingProvider>
-      <div className="min-h-screen bg-[#0d1220] flex">
-        <AdminSidebar />
-        <main className="flex-1 lg:ml-64 p-6 lg:p-8">{children}</main>
-      </div>
-    </LoadingProvider>
+    <div className="min-h-screen bg-[#0d1220] flex">
+      <AdminSidebar />
+      <main className="flex-1 lg:ml-64 p-6 lg:p-8">{children}</main>
+    </div>
   )
 }

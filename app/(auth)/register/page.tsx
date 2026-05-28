@@ -2,9 +2,11 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { useLoading } from '@/components/layout/GlobalLoader'
 
 export default function RegisterPage() {
   const router = useRouter()
+  const { show: showLoader, hide: hideLoader } = useLoading()
   const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
@@ -17,6 +19,7 @@ export default function RegisterPage() {
     }
     setLoading(true)
     setError('')
+    showLoader()
 
     const res = await fetch('/api/auth/register', {
       method: 'POST',
@@ -24,9 +27,10 @@ export default function RegisterPage() {
       headers: { 'Content-Type': 'application/json' },
     })
     const data = await res.json()
-    setLoading(false)
 
     if (!res.ok) {
+      hideLoader()
+      setLoading(false)
       setError(data.error)
       return
     }
