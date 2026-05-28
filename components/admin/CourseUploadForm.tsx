@@ -41,6 +41,7 @@ export function CourseUploadForm() {
     const data = await res.json()
     setLoading(false)
     if (!res.ok) { hideLoader(); setError(data.error); return }
+    hideLoader()
     router.push(`/admin/courses/${data.course.id}`)
   }
 
