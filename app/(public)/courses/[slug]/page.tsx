@@ -88,16 +88,22 @@ export default async function CourseDetailPage({ params }: Props) {
                 />
               )}
               <div className="flex items-baseline gap-3 mb-2">
-                <span className="text-3xl font-bold text-cyan-400">
-                  ₮{course.price.toLocaleString()}
-                </span>
-                {course.originalPrice && (
-                  <span className="text-gray-500 line-through text-lg">
-                    ₮{course.originalPrice.toLocaleString()}
-                  </span>
+                {course.price === 0 ? (
+                  <span className="text-3xl font-bold text-green-400">Үнэгүй</span>
+                ) : (
+                  <>
+                    <span className="text-3xl font-bold text-cyan-400">
+                      ₮{course.price.toLocaleString()}
+                    </span>
+                    {course.originalPrice && (
+                      <span className="text-gray-500 line-through text-lg">
+                        ₮{course.originalPrice.toLocaleString()}
+                      </span>
+                    )}
+                  </>
                 )}
               </div>
-              {course.originalPrice && (
+              {course.price > 0 && course.originalPrice && (
                 <p className="text-sm text-green-400 mb-4">
                   {Math.round((1 - course.price / course.originalPrice) * 100)}% хямдрал
                 </p>

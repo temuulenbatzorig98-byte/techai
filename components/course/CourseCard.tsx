@@ -51,9 +51,15 @@ export function CourseCard({ course }: { course: Course }) {
           {course.totalDuration > 0 && <span>⏱ {duration}</span>}
         </div>
         <div className="flex items-baseline gap-2">
-          <span className="text-xl font-bold text-cyan-400">₮{course.price.toLocaleString()}</span>
-          {course.originalPrice && (
-            <span className="text-sm text-gray-500 line-through">₮{course.originalPrice.toLocaleString()}</span>
+          {course.price === 0 ? (
+            <span className="text-xl font-bold text-green-400">Үнэгүй</span>
+          ) : (
+            <>
+              <span className="text-xl font-bold text-cyan-400">₮{course.price.toLocaleString()}</span>
+              {course.originalPrice && (
+                <span className="text-sm text-gray-500 line-through">₮{course.originalPrice.toLocaleString()}</span>
+              )}
+            </>
           )}
         </div>
       </div>

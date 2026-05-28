@@ -43,7 +43,7 @@ const createSchema = z.object({
   titleMn: z.string().min(3),
   description: z.string().min(10),
   descriptionMn: z.string().min(10),
-  price: z.number().positive(),
+  price: z.number().min(0),
   originalPrice: z.number().optional(),
   level: z.enum(['BEGINNER', 'INTERMEDIATE', 'ADVANCED']),
   category: z.string(),

@@ -17,6 +17,7 @@ export function CourseUploadForm() {
     category: '',
     slug: '',
   })
+  const [isFree, setIsFree] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -35,7 +36,7 @@ export function CourseUploadForm() {
     showLoader()
     const res = await fetch('/api/courses', {
       method: 'POST',
-      body: JSON.stringify({ ...form, price: Number(form.price), originalPrice: form.originalPrice ? Number(form.originalPrice) : undefined }),
+      body: JSON.stringify({ ...form, price: isFree ? 0 : Number(form.price), originalPrice: isFree ? undefined : (form.originalPrice ? Number(form.originalPrice) : undefined) }),
       headers: { 'Content-Type': 'application/json' },
     })
     const data = await res.json()
@@ -65,20 +66,27 @@ export function CourseUploadForm() {
         </div>
       ))}
 
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm text-gray-400 mb-1.5">Үнэ (₮)</label>
-          <input type="number" value={form.price} onChange={e => set('price', e.target.value)} required
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
-            placeholder="79000" />
+      <label className="flex items-center gap-3 cursor-pointer">
+        <input type="checkbox" checked={isFree} onChange={e => setIsFree(e.target.checked)} className="w-4 h-4 rounded accent-purple-500" />
+        <span className="text-sm text-gray-300">Үнэгүй курс</span>
+      </label>
+
+      {!isFree && (
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm text-gray-400 mb-1.5">Үнэ (₮)</label>
+            <input type="number" value={form.price} onChange={e => set('price', e.target.value)} required
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+              placeholder="79000" />
+          </div>
+          <div>
+            <label className="block text-sm text-gray-400 mb-1.5">Хуучин үнэ (₮)</label>
+            <input type="number" value={form.originalPrice} onChange={e => set('originalPrice', e.target.value)}
+              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+              placeholder="120000" />
+          </div>
         </div>
-        <div>
-          <label className="block text-sm text-gray-400 mb-1.5">Хуучин үнэ (₮)</label>
-          <input type="number" value={form.originalPrice} onChange={e => set('originalPrice', e.target.value)}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
-            placeholder="120000" />
-        </div>
-      </div>
+      )}
 
       <div>
         <label className="block text-sm text-gray-400 mb-1.5">Түвшин</label>
