@@ -50,3 +50,8 @@ export function generateVideoKey(courseId: string, lessonId: string, filename: s
 export function generateResourceKey(lessonId: string, filename: string): string {
   return `resources/${lessonId}/${Date.now()}-${filename}`
 }
+
+export function generateThumbnailKey(filename: string): string {
+  const ext = filename.split('.').pop()
+  return `thumbnails/${Date.now()}.${ext}`
+}

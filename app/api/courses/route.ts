@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { randomRating, randomStudents } from '@/lib/course-stats'
 import { z } from 'zod'
 
 export async function GET(req: NextRequest) {
@@ -48,6 +49,7 @@ const createSchema = z.object({
   level: z.enum(['BEGINNER', 'INTERMEDIATE', 'ADVANCED']),
   category: z.string(),
   slug: z.string().min(3),
+  thumbnailUrl: z.string().url().optional(),
 })
 
 export async function POST(req: NextRequest) {
@@ -58,7 +60,9 @@ export async function POST(req: NextRequest) {
 
   try {
     const data = createSchema.parse(await req.json())
-    const course = await prisma.course.create({ data })
+    const course = await prisma.course.create({
+      data: { ...data, rating: randomRating(), totalStudents: randomStudents() },
+    })
     return NextResponse.json({ course }, { status: 201 })
   } catch (err) {
     if (err instanceof z.ZodError) {

@@ -3,7 +3,11 @@
     "allow": [
       "Bash(node -e \"require\\('openai'\\)\")",
       "PowerShell(cd \"c:\\\\Users\\\\temku\\\\autolearn-ai\"; $jwt = [Convert]::ToBase64String\\(\\(1..48 | ForEach-Object { [byte]\\(Get-Random -Maximum 256\\) }\\)\\); Write-Output $jwt)",
-      "PowerShell(Get-Command vercel -ErrorAction SilentlyContinue; \\(Get-Command npx\\).Source; npx vercel --version 2>&1)"
+      "PowerShell(Get-Command vercel -ErrorAction SilentlyContinue; \\(Get-Command npx\\).Source; npx vercel --version 2>&1)",
+      "Bash(git push *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "PowerShell(git add -A)"
     ]
   }
 }

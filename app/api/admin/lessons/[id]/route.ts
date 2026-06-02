@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { syncCourseStats } from '@/lib/course-stats'
 import { z } from 'zod'
 
 async function requireAdmin(req: NextRequest) {
@@ -25,18 +26,8 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const data = patchSchema.parse(await req.json())
     const lesson = await prisma.lesson.update({ where: { id: params.id }, data })
 
-    // Sync totalLessons on the parent course
-    const section = await prisma.section.findUnique({
-      where: { id: lesson.sectionId },
-      include: { course: { include: { sections: { include: { lessons: true } } } } },
-    })
-    if (section) {
-      const totalLessons = section.course.sections.flatMap((s) => s.lessons).length
-      await prisma.course.update({
-        where: { id: section.courseId },
-        data: { totalLessons },
-      })
-    }
+    const section = await prisma.section.findUnique({ where: { id: lesson.sectionId } })
+    if (section) await syncCourseStats(section.courseId)
 
     return NextResponse.json({ lesson })
   } catch (err) {
@@ -47,6 +38,14 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   if (!await requireAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+
+  const lesson = await prisma.lesson.findUnique({ where: { id: params.id } })
   await prisma.lesson.delete({ where: { id: params.id } })
+
+  if (lesson) {
+    const section = await prisma.section.findUnique({ where: { id: lesson.sectionId } })
+    if (section) await syncCourseStats(section.courseId)
+  }
+
   return NextResponse.json({ ok: true })
 }

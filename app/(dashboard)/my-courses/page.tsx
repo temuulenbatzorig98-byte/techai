@@ -2,70 +2,89 @@ export const dynamic = 'force-dynamic'
 import { cookies } from 'next/headers'
 import { verifyToken } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import Link from 'next/link'
-import { UnenrollButton } from '@/components/dashboard/UnenrollButton'
+import { MyCoursesClient } from '@/components/dashboard/MyCoursesClient'
+
+const LESSON_SELECT = {
+  id: true,
+  title: true,
+  titleMn: true,
+  duration: true,
+  order: true,
+  isFree: true,
+} as const
+
+const COURSE_INCLUDE = {
+  sections: {
+    orderBy: { order: 'asc' as const },
+    include: {
+      lessons: {
+        orderBy: { order: 'asc' as const },
+        select: LESSON_SELECT,
+      },
+    },
+  },
+} as const
 
 export default async function MyCoursesPage() {
   const token = cookies().get('auth_token')?.value
   const session = token ? await verifyToken(token) : null
   if (!session) return null
 
-  const enrollments = await prisma.enrollment.findMany({
-    where: { userId: session.userId },
-    include: {
-      course: {
-        include: {
-          sections: { include: { lessons: { select: { id: true } } } },
+  const [enrollments, pendingPayments] = await Promise.all([
+    prisma.enrollment.findMany({
+      where: { userId: session.userId },
+      include: {
+        course: {
+          select: {
+            id: true, slug: true, title: true, titleMn: true,
+            thumbnailUrl: true, price: true, totalLessons: true,
+            sections: {
+              orderBy: { order: 'asc' },
+              include: { lessons: { orderBy: { order: 'asc' }, select: LESSON_SELECT } },
+            },
+          },
         },
       },
-    },
-    orderBy: { enrolledAt: 'desc' },
-  })
+      orderBy: { enrolledAt: 'desc' },
+    }),
+    prisma.payment.findMany({
+      where: {
+        userId: session.userId,
+        status: 'PENDING',
+        course: {
+          enrollments: { none: { userId: session.userId } },
+        },
+      },
+      include: {
+        course: {
+          select: {
+            id: true, slug: true, title: true, titleMn: true,
+            thumbnailUrl: true, price: true, totalLessons: true,
+            sections: {
+              orderBy: { order: 'asc' },
+              include: { lessons: { orderBy: { order: 'asc' }, select: LESSON_SELECT } },
+            },
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    }),
+  ])
 
-  return (
-    <div className="max-w-5xl mx-auto">
-      <h1 className="font-syne text-2xl font-bold text-white mb-8">Миний курсууд</h1>
+  const active = enrollments.map((e) => ({
+    course: e.course,
+    enrolledAt: e.enrolledAt,
+  }))
 
-      {enrollments.length === 0 ? (
-        <div className="text-center py-20">
-          <div className="text-5xl mb-4">📚</div>
-          <p className="text-gray-400 mb-6">Та одоогоор ямар нэг курст бүртгэгдээгүй байна</p>
-          <Link href="/courses"
-            className="px-6 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-xl font-semibold text-sm">
-            Курсийн каталог
-          </Link>
-        </div>
-      ) : (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {enrollments.map(({ course, enrolledAt }) => {
-            const firstLesson = course.sections[0]?.lessons[0]
-            return (
-              <div key={course.id} className="bg-[#111827] border border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/30 transition">
-                {course.thumbnailUrl && (
-                  <img src={course.thumbnailUrl} alt={course.titleMn} className="w-full aspect-video object-cover" />
-                )}
-                <div className="p-4">
-                  <h3 className="font-semibold text-white mb-1 line-clamp-2">{course.titleMn || course.title}</h3>
-                  <p className="text-xs text-gray-400 mb-4">
-                    Бүртгүүлсэн: {new Date(enrolledAt).toLocaleDateString('mn-MN')}
-                  </p>
-                  {firstLesson ? (
-                    <Link href={`/learn/${course.id}/${firstLesson.id}`}
-                      className="block text-center py-2 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-xl text-sm font-medium">
-                      Үргэлжлүүлэх →
-                    </Link>
-                  ) : (
-                    <span className="block text-center py-2 bg-white/5 text-gray-400 rounded-xl text-sm">
-                      Хичээл байхгүй
-                    </span>
-                  )}
-                  <UnenrollButton courseId={course.id} />
-                </div>
-              </div>
-            )
-          })}
-        </div>
-      )}
-    </div>
-  )
+  const enrolledCourseIds = new Set(enrollments.map((e) => e.courseId))
+  const seen = new Set<string>()
+  const inactive = pendingPayments
+    .filter((p) => !enrolledCourseIds.has(p.courseId) && !seen.has(p.courseId) && seen.add(p.courseId))
+    .map((p) => ({
+      paymentId: p.id,
+      course: p.course,
+      amount: p.amount,
+    }))
+
+  return <MyCoursesClient active={active} inactive={inactive} />
 }

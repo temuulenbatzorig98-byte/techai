@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { syncCourseStats } from '@/lib/course-stats'
 import { z } from 'zod'
 
 async function requireAdmin(req: NextRequest) {
@@ -28,6 +29,11 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
   if (!await requireAdmin(req)) return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
+
+  const section = await prisma.section.findUnique({ where: { id: params.id } })
   await prisma.section.delete({ where: { id: params.id } })
+
+  if (section) await syncCourseStats(section.courseId)
+
   return NextResponse.json({ ok: true })
 }

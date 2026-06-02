@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { verifyToken } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { redirect } from 'next/navigation'
+import { ProfileEditForm } from '@/components/profile/ProfileEditForm'
 
 export default async function ProfilePage() {
   const token = cookies().get('auth_token')?.value
@@ -22,7 +23,7 @@ export default async function ProfilePage() {
 
       <div className="bg-[#111827] border border-white/10 rounded-2xl p-8 mb-6">
         <div className="flex items-center gap-6 mb-8">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center text-3xl font-bold text-white">
+          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center text-3xl font-bold text-white shrink-0">
             {user.name.charAt(0).toUpperCase()}
           </div>
           <div>
@@ -34,19 +35,13 @@ export default async function ProfilePage() {
           </div>
         </div>
 
-        <div className="space-y-4">
-          {[
-            { label: 'Нэр', value: user.name },
-            { label: 'Имэйл', value: user.email ?? '—' },
-            { label: 'Утас', value: user.phone ?? '—' },
-            { label: 'Бүртгүүлсэн', value: new Date(user.createdAt).toLocaleDateString('mn-MN') },
-          ].map(({ label, value }) => (
-            <div key={label} className="flex justify-between items-center py-3 border-b border-white/5">
-              <span className="text-sm text-gray-400">{label}</span>
-              <span className="text-sm text-white">{value}</span>
-            </div>
-          ))}
+        <div className="flex items-center gap-3 py-3 border-b border-white/5 mb-6">
+          <span className="text-sm text-gray-400 w-32 shrink-0">Бүртгүүлсэн</span>
+          <span className="text-sm text-white">{new Date(user.createdAt).toLocaleDateString('mn-MN')}</span>
         </div>
+
+        <h3 className="text-sm font-semibold text-gray-300 mb-4">Мэдээлэл засах</h3>
+        <ProfileEditForm user={{ name: user.name, email: user.email, phone: user.phone }} />
       </div>
     </div>
   )

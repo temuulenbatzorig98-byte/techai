@@ -14,14 +14,14 @@ export function HeroSection() {
         </div>
 
         <h1 className="font-syne text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
-          Үнэгүй 24/7{' '}
-          <span className="gradient-text">ажилтантай</span>
-          <br />
-          болмоор байна уу?
+          AI ашигладаг хүмүүс{' '}
+          <span className="gradient-text">цаг хэмнэдэг.</span>
         </h1>
 
         <p className="text-lg lg:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-          AI Chatbot бүтээх, n8n workflow, Facebook automation - зэргийг монгол хэлээр судлан өөрийн бизнесдээ хэрэгжүүлээрэй.
+          Та ч бас AI Chatbot бүтээж, Excel ажлаа автоматжуулж, бүтээмжээ өсгөөрэй.
+          <br className="hidden sm:block" />
+          Энгийн ойлгомжтой видео хичээлүүдээр AI хэрэгслүүдийг бодит ажил дээр ашиглаж сурна.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">

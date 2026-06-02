@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { syncCourseStats } from '@/lib/course-stats'
 import { z } from 'zod'
 
 const schema = z.object({
@@ -21,6 +22,10 @@ export async function POST(req: NextRequest) {
   try {
     const data = schema.parse(await req.json())
     const lesson = await prisma.lesson.create({ data })
+
+    const section = await prisma.section.findUnique({ where: { id: lesson.sectionId } })
+    if (section) await syncCourseStats(section.courseId)
+
     return NextResponse.json({ lesson }, { status: 201 })
   } catch (err) {
     if (err instanceof z.ZodError) return NextResponse.json({ error: err.errors[0].message }, { status: 400 })

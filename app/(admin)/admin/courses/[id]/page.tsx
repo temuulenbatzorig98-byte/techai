@@ -179,6 +179,7 @@ export default function AdminCourseDetailPage() {
   const [newLesson, setNewLesson] = useState({ title: '', titleMn: '', videoKey: '', isFree: false })
 
   const [editingLesson, setEditingLesson] = useState<Lesson & { sectionId: string } | null>(null)
+  const [granting, setGranting] = useState(false)
 
   const load = useCallback(async () => {
     const res = await fetch(`/api/admin/courses/${id}`)
@@ -286,6 +287,20 @@ export default function AdminCourseDetailPage() {
     if (res.ok) { setEditingLesson(null); await load(); flash('Хичээл хадгалагдлаа') }
   }
 
+  const grantAccess = async () => {
+    setGranting(true)
+    const res = await fetch(`/api/admin/courses/${id}/grant-access`, { method: 'POST' })
+    const data = await res.json()
+    setGranting(false)
+    if (res.ok) {
+      if (data.firstLessonId) {
+        router.push(`/learn/${id}/${data.firstLessonId}`)
+      } else {
+        flash('Хандалт олгогдлоо — хичээл байхгүй байна')
+      }
+    }
+  }
+
   const deleteLesson = async (lessonId: string) => {
     if (!confirm('Хичээлийг устгах уу?')) return
     showLoader()
@@ -313,6 +328,13 @@ export default function AdminCourseDetailPage() {
         </div>
         <div className="flex items-center gap-3">
           {msg && <span className="text-green-400 text-sm">{msg}</span>}
+          <button
+            onClick={grantAccess}
+            disabled={granting}
+            className="px-4 py-2 rounded-xl text-sm font-semibold transition bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 hover:bg-cyan-500/30 disabled:opacity-50"
+          >
+            {granting ? '...' : '▶ Тест үзэх'}
+          </button>
           <button
             onClick={deleteCourse}
             className="px-4 py-2 rounded-xl text-sm font-semibold transition bg-red-500/20 text-red-400 border border-red-500/30 hover:bg-red-500/30"
