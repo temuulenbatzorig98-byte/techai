@@ -180,6 +180,9 @@ export default function AdminCourseDetailPage() {
 
   const [editingLesson, setEditingLesson] = useState<Lesson & { sectionId: string } | null>(null)
   const [granting, setGranting] = useState(false)
+  const [thumbPreview, setThumbPreview] = useState<string | null>(null)
+  const [uploadingThumb, setUploadingThumb] = useState(false)
+  const thumbInputRef = useRef<HTMLInputElement>(null)
 
   const load = useCallback(async () => {
     const res = await fetch(`/api/admin/courses/${id}`)
@@ -287,6 +290,35 @@ export default function AdminCourseDetailPage() {
     if (res.ok) { setEditingLesson(null); await load(); flash('Хичээл хадгалагдлаа') }
   }
 
+  const handleThumbSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file || !course) return
+    setThumbPreview(URL.createObjectURL(file))
+    setUploadingThumb(true)
+    try {
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'thumbnail', filename: file.name, contentType: file.type }),
+      })
+      const { uploadUrl, publicUrl } = await res.json()
+      await fetch(uploadUrl, { method: 'PUT', body: file, headers: { 'Content-Type': file.type } })
+      await fetch(`/api/admin/courses/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ thumbnailUrl: publicUrl }),
+      })
+      setCourse((c) => c ? { ...c, thumbnailUrl: publicUrl } : c)
+      flash('Зураг хадгалагдлаа')
+    } catch {
+      flash('Зураг upload хийхэд алдаа гарлаа')
+      setThumbPreview(null)
+    } finally {
+      setUploadingThumb(false)
+      if (thumbInputRef.current) thumbInputRef.current.value = ''
+    }
+  }
+
   const grantAccess = async () => {
     setGranting(true)
     const res = await fetch(`/api/admin/courses/${id}/grant-access`, { method: 'POST' })
@@ -352,6 +384,54 @@ export default function AdminCourseDetailPage() {
           >
             {saving ? '...' : course.isPublished ? 'Нуух' : 'Нийтлэх'}
           </button>
+        </div>
+      </div>
+
+      {/* Thumbnail */}
+      <div className="bg-[#111827] border border-white/10 rounded-2xl overflow-hidden">
+        <div className="px-5 py-3 border-b border-white/10 flex items-center justify-between">
+          <p className="text-sm font-semibold text-gray-300">Зураг (Thumbnail)</p>
+          <button
+            onClick={() => thumbInputRef.current?.click()}
+            disabled={uploadingThumb}
+            className="text-xs px-3 py-1.5 bg-purple-600/30 text-purple-300 border border-purple-500/30 rounded-lg hover:bg-purple-600/50 transition disabled:opacity-50"
+          >
+            {uploadingThumb ? 'Хадгалж байна...' : '🖼 Зураг солих'}
+          </button>
+          <input
+            ref={thumbInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={handleThumbSelect}
+            className="hidden"
+          />
+        </div>
+        <div
+          onClick={() => !uploadingThumb && thumbInputRef.current?.click()}
+          className="relative cursor-pointer group"
+        >
+          {thumbPreview || course.thumbnailUrl ? (
+            <img
+              src={thumbPreview ?? course.thumbnailUrl!}
+              alt="thumbnail"
+              className="w-full aspect-video object-cover"
+            />
+          ) : (
+            <div className="w-full aspect-video bg-gradient-to-br from-purple-600/10 to-cyan-500/10 flex flex-col items-center justify-center gap-2 text-gray-600">
+              <span className="text-4xl">🖼️</span>
+              <span className="text-sm">Зураг оруулахын тулд дарна уу</span>
+            </div>
+          )}
+          {uploadingThumb && (
+            <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+              <div className="w-8 h-8 border-2 border-white/20 border-t-purple-500 rounded-full animate-spin" />
+            </div>
+          )}
+          {!uploadingThumb && (thumbPreview || course.thumbnailUrl) && (
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition flex items-center justify-center">
+              <span className="text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">Зураг солих</span>
+            </div>
+          )}
         </div>
       </div>
 

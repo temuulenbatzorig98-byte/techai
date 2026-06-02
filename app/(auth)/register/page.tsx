@@ -8,6 +8,7 @@ export default function RegisterPage() {
   const router = useRouter()
   const { show: showLoader, hide: hideLoader } = useLoading()
   const [form, setForm] = useState({ name: '', email: '', password: '', confirmPassword: '' })
+  const [agreed, setAgreed] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -15,6 +16,10 @@ export default function RegisterPage() {
     e.preventDefault()
     if (form.password !== form.confirmPassword) {
       setError('Нууц үг таарахгүй байна')
+      return
+    }
+    if (!agreed) {
+      setError('Үйлчилгээний нөхцөл болон Нууцлалын бодлогыг зөвшөөрөх шаардлагатай')
       return
     }
     setLoading(true)
@@ -76,9 +81,24 @@ export default function RegisterPage() {
                 />
               </div>
             ))}
+            <label className="flex items-start gap-3 cursor-pointer group">
+              <input
+                type="checkbox"
+                checked={agreed}
+                onChange={(e) => setAgreed(e.target.checked)}
+                className="mt-0.5 w-4 h-4 rounded accent-purple-500 shrink-0 cursor-pointer"
+              />
+              <span className="text-sm text-gray-400 leading-relaxed">
+                <Link href="/tos" target="_blank" className="text-purple-400 hover:text-purple-300 underline underline-offset-2">
+                  Үйлчилгээний нөхцөл болон Нууцлалын бодлого
+                </Link>
+                -г уншиж, зөвшөөрч байна
+              </span>
+            </label>
+
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !agreed}
               className="w-full py-3 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-xl font-semibold disabled:opacity-50 hover:opacity-90 transition"
             >
               {loading ? 'Бүртгэж байна...' : 'Бүртгүүлэх'}
