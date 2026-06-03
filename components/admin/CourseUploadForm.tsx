@@ -42,16 +42,15 @@ export function CourseUploadForm() {
     setError('')
 
     try {
-      const res = await fetch('/api/admin/upload', {
+      const formData = new FormData()
+      formData.append('file', file)
+      const res = await fetch('/api/admin/upload-thumbnail', {
         method: 'POST',
-        body: JSON.stringify({ type: 'thumbnail', filename: file.name, contentType: file.type }),
-        headers: { 'Content-Type': 'application/json' },
+        body: formData,
       })
-      const { uploadUrl, publicUrl, error: apiError } = await res.json()
-      if (!res.ok) throw new Error(apiError || 'Upload алдаа')
-
-      await fetch(uploadUrl, { method: 'PUT', body: file, headers: { 'Content-Type': file.type } })
-      setThumbnailUrl(publicUrl)
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Upload алдаа')
+      setThumbnailUrl(data.publicUrl)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Зураг upload хийхэд алдаа гарлаа')
       setThumbnailPreview('')

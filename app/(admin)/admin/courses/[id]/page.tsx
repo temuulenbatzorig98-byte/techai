@@ -296,13 +296,14 @@ export default function AdminCourseDetailPage() {
     setThumbPreview(URL.createObjectURL(file))
     setUploadingThumb(true)
     try {
-      const res = await fetch('/api/admin/upload', {
+      const thumbForm = new FormData()
+      thumbForm.append('file', file)
+      const res = await fetch('/api/admin/upload-thumbnail', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'thumbnail', filename: file.name, contentType: file.type }),
+        body: thumbForm,
       })
-      const { uploadUrl, publicUrl } = await res.json()
-      await fetch(uploadUrl, { method: 'PUT', body: file, headers: { 'Content-Type': file.type } })
+      const { publicUrl, error: uploadErr } = await res.json()
+      if (!res.ok) throw new Error(uploadErr || 'Upload алдаа')
       await fetch(`/api/admin/courses/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
