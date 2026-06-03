@@ -17,6 +17,7 @@ export default async function CourseDetailPage({ params }: Props) {
   const course = await prisma.course.findUnique({
     where: { slug: params.slug.toLowerCase(), isPublished: true },
     include: {
+      _count: { select: { enrollments: true } },
       sections: {
         include: {
           lessons: {
@@ -38,6 +39,12 @@ export default async function CourseDetailPage({ params }: Props) {
 
   if (!course) notFound()
 
+  const allLessons = course.sections.flatMap((s) => s.lessons)
+  const totalLessons = allLessons.length
+  const totalDuration = allLessons.reduce((sum, l) => sum + l.duration, 0)
+  const totalStudents = course._count.enrollments
+  const rating = course.rating > 0 ? course.rating : 4.8
+
   const levelLabel: Record<string, string> = {
     BEGINNER: 'Анхан шат',
     INTERMEDIATE: 'Дунд шат',
@@ -51,11 +58,11 @@ export default async function CourseDetailPage({ params }: Props) {
   }
 
   return (
-    <main className="min-h-screen bg-[#0d1220]">
+    <main className="min-h-screen bg-white dark:bg-[#0d1220]">
       <Navbar />
 
       {/* Hero */}
-      <div className="border-b border-white/10 bg-[#111827]">
+      <div className="border-b border-slate-200 dark:border-white/10 bg-white dark:bg-[#111827]">
         <div className="max-w-7xl mx-auto px-4 py-16 grid lg:grid-cols-3 gap-12">
           <div className="lg:col-span-2">
             <div className="flex gap-2 mb-4">
@@ -66,20 +73,20 @@ export default async function CourseDetailPage({ params }: Props) {
                 {levelLabel[course.level]}
               </span>
             </div>
-            <h1 className="font-syne text-3xl lg:text-4xl font-bold text-white mb-4 leading-tight">
+            <h1 className="font-syne text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4 leading-tight">
               {course.titleMn || course.title}
             </h1>
-            <p className="text-gray-400 leading-relaxed mb-6">{course.descriptionMn || course.description}</p>
-            <div className="flex flex-wrap gap-6 text-sm text-gray-400">
-              <span>⭐ {course.rating.toFixed(1)} үнэлгээ</span>
-              <span>👥 {course.totalStudents.toLocaleString()} оюутан</span>
-              <span>📚 {course.totalLessons} хичээл</span>
-              <span>⏱ {formatDuration(course.totalDuration)}</span>
+            <p className="text-slate-500 dark:text-gray-400 leading-relaxed mb-6">{course.descriptionMn || course.description}</p>
+            <div className="flex flex-wrap gap-6 text-sm text-slate-500 dark:text-gray-400">
+              <span>⭐ {rating.toFixed(1)} үнэлгээ</span>
+              <span>👥 {totalStudents.toLocaleString()} оюутан</span>
+              <span>📚 {totalLessons} хичээл</span>
+              <span>⏱ {formatDuration(totalDuration)}</span>
             </div>
           </div>
 
           <div className="lg:col-span-1">
-            <div className="bg-[#0d1220] border border-white/10 rounded-2xl p-6 sticky top-24 card-glow">
+            <div className="bg-white dark:bg-[#0d1220] border border-slate-200 dark:border-white/10 rounded-2xl p-6 sticky top-24 card-glow">
               {course.thumbnailUrl && (
                 <img
                   src={course.thumbnailUrl}
@@ -96,7 +103,7 @@ export default async function CourseDetailPage({ params }: Props) {
                       ₮{course.price.toLocaleString()}
                     </span>
                     {course.originalPrice && (
-                      <span className="text-gray-500 line-through text-lg">
+                      <span className="text-slate-400 dark:text-gray-500 line-through text-lg">
                         ₮{course.originalPrice.toLocaleString()}
                       </span>
                     )}
@@ -120,7 +127,7 @@ export default async function CourseDetailPage({ params }: Props) {
 
       {/* Curriculum */}
       <div className="max-w-7xl mx-auto px-4 py-12">
-        <h2 className="font-syne text-2xl font-bold text-white mb-6">Хичээлийн агуулга</h2>
+        <h2 className="font-syne text-2xl font-bold text-slate-900 dark:text-white mb-6">Хичээлийн агуулга</h2>
         <LessonList sections={course.sections} />
       </div>
 

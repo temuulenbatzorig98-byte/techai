@@ -59,10 +59,10 @@ export function CourseGrid({ courses }: { courses: Course[] }) {
     <section className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h2 className="font-syne text-3xl lg:text-4xl font-bold text-white mb-4">
+          <h2 className="font-syne text-3xl lg:text-4xl font-bold text-slate-900 dark:text-white mb-4">
             Онцлох <span className="gradient-text">Курсууд</span>
           </h2>
-          <p className="text-gray-400 max-w-xl mx-auto">
+          <p className="text-slate-500 dark:text-gray-400 max-w-xl mx-auto">
             Монголын ажилчдад зориулсан практик AI мэдлэг
           </p>
         </div>
@@ -78,7 +78,7 @@ export function CourseGrid({ courses }: { courses: Course[] }) {
             const desc = c.descriptionMn || c.description || ''
 
             return (
-              <div key={c.id} className="group bg-[#111827] border border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/40 transition card-glow">
+              <div key={c.id} className="group bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden hover:border-purple-500/40 transition card-glow">
                 <div className={`h-36 bg-gradient-to-br ${gradient} flex items-center justify-center overflow-hidden`}>
                   {c.thumbnailUrl ? (
                     <img src={c.thumbnailUrl} alt={c.titleMn} className="w-full h-full object-cover group-hover:scale-105 transition duration-300" />
@@ -88,12 +88,12 @@ export function CourseGrid({ courses }: { courses: Course[] }) {
                 </div>
                 <div className="p-5">
                   <div className="flex gap-2 mb-3">
-                    <span className="text-xs bg-white/5 text-gray-400 border border-white/10 px-2 py-0.5 rounded-full">{c.category}</span>
-                    <span className="text-xs bg-white/5 text-gray-400 border border-white/10 px-2 py-0.5 rounded-full">{LEVEL_LABEL[c.level] ?? c.level}</span>
+                    <span className="text-xs bg-slate-50 dark:bg-white/5 text-slate-500 dark:text-gray-400 border border-slate-200 dark:border-white/10 px-2 py-0.5 rounded-full">{c.category}</span>
+                    <span className="text-xs bg-slate-50 dark:bg-white/5 text-slate-500 dark:text-gray-400 border border-slate-200 dark:border-white/10 px-2 py-0.5 rounded-full">{LEVEL_LABEL[c.level] ?? c.level}</span>
                   </div>
-                  <h3 className="font-syne font-bold text-white text-lg mb-2">{c.titleMn || c.title}</h3>
-                  <p className="text-sm text-gray-400 mb-4 line-clamp-2">{desc}</p>
-                  <div className="flex items-center gap-4 text-xs text-gray-500 mb-4">
+                  <h3 className="font-syne font-bold text-slate-900 dark:text-white text-lg mb-2">{c.titleMn || c.title}</h3>
+                  <p className="text-sm text-slate-500 dark:text-gray-400 mb-4 line-clamp-2">{desc}</p>
+                  <div className="flex items-center gap-4 text-xs text-slate-400 dark:text-gray-500 mb-4">
                     <span>👥 {c.totalStudents.toLocaleString()}</span>
                     <span>📚 {c.totalLessons} хичээл</span>
                   </div>
@@ -105,7 +105,7 @@ export function CourseGrid({ courses }: { courses: Course[] }) {
                         <>
                           <span className="text-xl font-bold text-cyan-400">₮{c.price.toLocaleString()}</span>
                           {c.originalPrice && (
-                            <span className="text-sm text-gray-500 line-through">₮{c.originalPrice.toLocaleString()}</span>
+                            <span className="text-sm text-slate-400 dark:text-gray-500 line-through">₮{c.originalPrice.toLocaleString()}</span>
                           )}
                         </>
                       )}
@@ -138,7 +138,7 @@ export function CourseGrid({ courses }: { courses: Course[] }) {
         <div className="text-center">
           <Link
             href="/courses"
-            className="inline-flex items-center gap-2 px-6 py-3 border border-white/10 text-gray-300 rounded-xl hover:bg-white/5 transition"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-gray-300 rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 transition"
           >
             Бүх курсийг үзэх →
           </Link>

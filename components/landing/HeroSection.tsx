@@ -8,17 +8,17 @@ export function HeroSection() {
       <div className="absolute top-32 left-1/2 -translate-x-1/2 w-[300px] h-[200px] bg-cyan-500/15 rounded-full blur-[80px] pointer-events-none" />
 
       <div className="relative max-w-4xl mx-auto">
-        <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-gray-300 mb-8">
+        <div className="inline-flex items-center gap-2 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-full px-4 py-2 text-sm text-slate-700 dark:text-gray-300 mb-8">
           <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
           Монголын #1 AI боловсролын платформ
         </div>
 
-        <h1 className="font-syne text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight">
+        <h1 className="font-syne text-5xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 leading-tight">
           AI ашигладаг хүмүүс{' '}
           <span className="gradient-text">цаг хэмнэдэг.</span>
         </h1>
 
-        <p className="text-lg lg:text-xl text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
+        <p className="text-lg lg:text-xl text-slate-500 dark:text-gray-400 mb-10 max-w-2xl mx-auto leading-relaxed">
           Та ч бас AI Chatbot бүтээж, Excel ажлаа автоматжуулж, бүтээмжээ өсгөөрэй.
           <br className="hidden sm:block" />
           Энгийн ойлгомжтой видео хичээлүүдээр AI хэрэгслүүдийг бодит ажил дээр ашиглаж сурна.
@@ -33,13 +33,13 @@ export function HeroSection() {
           </Link>
           <Link
             href="/register"
-            className="px-8 py-4 bg-white/5 border border-white/10 text-white rounded-2xl font-semibold text-lg hover:bg-white/10 transition"
+            className="px-8 py-4 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 text-slate-900 dark:text-white rounded-2xl font-semibold text-lg hover:bg-white/10 transition"
           >
             Үнэгүй бүртгүүлэх
           </Link>
         </div>
 
-        <div className="mt-12 flex flex-wrap justify-center gap-6 text-sm text-gray-400">
+        <div className="mt-12 flex flex-wrap justify-center gap-6 text-sm text-slate-500 dark:text-gray-400">
           {['✓ Монгол хэлээр', '✓ Практик дасгал', '✓ QPAY төлбөр', '✓ Насан туршийн эрх'].map((f) => (
             <span key={f}>{f}</span>
           ))}
@@ -48,14 +48,14 @@ export function HeroSection() {
         {/* Demo video */}
         <div className="mt-16 relative max-w-3xl mx-auto">
           <div className="absolute -inset-1 bg-gradient-to-r from-purple-600/40 to-cyan-500/40 rounded-2xl blur-lg" />
-          <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-purple-500/20">
-            <div className="bg-[#111827]/80 px-4 py-2.5 flex items-center gap-2 border-b border-white/10">
+          <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10 shadow-2xl shadow-purple-500/20">
+            <div className="bg-white dark:bg-[#111827]/80 px-4 py-2.5 flex items-center gap-2 border-b border-slate-200 dark:border-white/10">
               <div className="flex gap-1.5">
                 <div className="w-3 h-3 rounded-full bg-red-500/70" />
                 <div className="w-3 h-3 rounded-full bg-yellow-500/70" />
                 <div className="w-3 h-3 rounded-full bg-green-500/70" />
               </div>
-              <span className="text-xs text-gray-500 ml-2">AI Agent — демо бичлэг</span>
+              <span className="text-xs text-slate-400 dark:text-gray-500 ml-2">AI Agent — демо бичлэг</span>
             </div>
             <div className="aspect-video">
               <iframe

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { syncCourseStats } from '@/lib/course-stats'
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
   const session = await getServerSession(req)
@@ -29,6 +30,8 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     create: { userId: session.userId, courseId: params.id },
     update: {},
   })
+
+  await syncCourseStats(params.id)
 
   return NextResponse.json({ ok: true })
 }

@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic'
 import { prisma } from '@/lib/prisma'
+import { SyncStatsButton } from '@/components/admin/SyncStatsButton'
 
 export default async function AdminDashboard() {
   const now = new Date()
@@ -29,30 +30,33 @@ export default async function AdminDashboard() {
 
   return (
     <div className="max-w-6xl mx-auto">
-      <h1 className="font-syne text-2xl font-bold text-white mb-8">Админ Хяналтын Самбар</h1>
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="font-syne text-2xl font-bold text-slate-900 dark:text-white">Админ Хяналтын Самбар</h1>
+        <SyncStatsButton />
+      </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
         {stats.map((s) => (
-          <div key={s.label} className="bg-[#111827] border border-white/10 rounded-2xl p-5">
+          <div key={s.label} className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl p-5">
             <div className="text-2xl mb-3">{s.icon}</div>
             <div className={`text-2xl font-bold ${s.color} mb-1`}>{s.value}</div>
-            <div className="text-xs text-gray-400">{s.label}</div>
+            <div className="text-xs text-slate-500 dark:text-gray-400">{s.label}</div>
           </div>
         ))}
       </div>
 
-      <div className="bg-[#111827] border border-white/10 rounded-2xl p-6">
-        <h2 className="font-syne font-bold text-white mb-4">Сүүлийн төлбөрүүд</h2>
+      <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl p-6">
+        <h2 className="font-syne font-bold text-slate-900 dark:text-white mb-4">Сүүлийн төлбөрүүд</h2>
         <div className="space-y-3">
           {recentPayments.map((p) => (
             <div key={p.id} className="flex items-center justify-between py-2 border-b border-white/5">
               <div>
-                <p className="text-sm text-white">{p.user.name}</p>
-                <p className="text-xs text-gray-400">{p.course.titleMn}</p>
+                <p className="text-sm text-slate-900 dark:text-white">{p.user.name}</p>
+                <p className="text-xs text-slate-500 dark:text-gray-400">{p.course.titleMn}</p>
               </div>
               <div className="text-right">
                 <p className="text-sm font-semibold text-green-400">₮{p.amount.toLocaleString()}</p>
-                <p className="text-xs text-gray-500">
+                <p className="text-xs text-slate-400 dark:text-gray-500">
                   {p.paidAt ? new Date(p.paidAt).toLocaleDateString('mn-MN') : '—'}
                 </p>
               </div>

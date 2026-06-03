@@ -2,6 +2,7 @@
 import { Inter, Syne } from 'next/font/google'
 import './globals.css'
 import { GlobalLoader, LoadingProvider } from '@/components/layout/GlobalLoader'
+import { ThemeProvider } from '@/components/layout/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 const syne = Syne({ subsets: ['latin'], variable: '--font-syne' })
@@ -23,12 +24,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="mn" className={`${inter.variable} ${syne.variable}`}>
+    <html lang="mn" className={`${inter.variable} ${syne.variable}`} suppressHydrationWarning>
       <body className={inter.className}>
-        <LoadingProvider>
-          <GlobalLoader />
-          {children}
-        </LoadingProvider>
+        <ThemeProvider>
+          <LoadingProvider>
+            <GlobalLoader />
+            {children}
+          </LoadingProvider>
+        </ThemeProvider>
       </body>
     </html>
   )

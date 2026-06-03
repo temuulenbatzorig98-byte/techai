@@ -94,10 +94,10 @@ export function CourseUploadForm() {
       {error && <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl">{error}</div>}
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">Зураг (Thumbnail)</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Зураг (Thumbnail)</label>
         <div
           onClick={() => !uploading && fileInputRef.current?.click()}
-          className="relative cursor-pointer aspect-video bg-white/5 border-2 border-dashed border-white/10 rounded-xl overflow-hidden hover:border-purple-500/50 transition flex items-center justify-center"
+          className="relative cursor-pointer aspect-video bg-slate-50 dark:bg-white/5 border-2 border-dashed border-slate-200 dark:border-white/10 rounded-xl overflow-hidden hover:border-purple-500/50 transition flex items-center justify-center"
         >
           {thumbnailPreview ? (
             <>
@@ -108,13 +108,13 @@ export function CourseUploadForm() {
                 </div>
               )}
               {!uploading && thumbnailUrl && (
-                <div className="absolute top-2 right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full">✓ Хадгалагдсан</div>
+                <div className="absolute top-2 right-2 bg-green-500 text-slate-900 dark:text-white text-xs px-2 py-1 rounded-full">✓ Хадгалагдсан</div>
               )}
             </>
           ) : (
             <div className="text-center p-6">
               <div className="text-3xl mb-2">🖼️</div>
-              <p className="text-sm text-gray-400">Зураг сонгоход дарна уу</p>
+              <p className="text-sm text-slate-500 dark:text-gray-400">Зураг сонгоход дарна уу</p>
               <p className="text-xs text-gray-600 mt-1">JPG, PNG, WebP • Дээд тал 5MB</p>
             </div>
           )}
@@ -130,39 +130,39 @@ export function CourseUploadForm() {
 
       {fields.map(({ key, label, placeholder }) => (
         <div key={key}>
-          <label className="block text-sm text-gray-400 mb-1.5">{label}</label>
+          <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">{label}</label>
           <input value={form[key as keyof typeof form]} onChange={e => set(key, e.target.value)} required
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
+            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
             placeholder={placeholder} />
         </div>
       ))}
 
       <label className="flex items-center gap-3 cursor-pointer">
         <input type="checkbox" checked={isFree} onChange={e => setIsFree(e.target.checked)} className="w-4 h-4 rounded accent-purple-500" />
-        <span className="text-sm text-gray-300">Үнэгүй курс</span>
+        <span className="text-sm text-slate-700 dark:text-gray-300">Үнэгүй курс</span>
       </label>
 
       {!isFree && (
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm text-gray-400 mb-1.5">Үнэ (₮)</label>
+            <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Үнэ (₮)</label>
             <input type="number" value={form.price} onChange={e => set('price', e.target.value)} required
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+              className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-purple-500"
               placeholder="79000" />
           </div>
           <div>
-            <label className="block text-sm text-gray-400 mb-1.5">Хуучин үнэ (₮)</label>
+            <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Хуучин үнэ (₮)</label>
             <input type="number" value={form.originalPrice} onChange={e => set('originalPrice', e.target.value)}
-              className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500"
+              className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-purple-500"
               placeholder="120000" />
           </div>
         </div>
       )}
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">Түвшин</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Түвшин</label>
         <select value={form.level} onChange={e => set('level', e.target.value)}
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500">
+          className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-purple-500">
           <option value="BEGINNER">Анхан шат</option>
           <option value="INTERMEDIATE">Дунд шат</option>
           <option value="ADVANCED">Ахисан шат</option>
@@ -170,15 +170,15 @@ export function CourseUploadForm() {
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">Тайлбар (Монгол)</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Тайлбар (Монгол)</label>
         <textarea value={form.descriptionMn} onChange={e => set('descriptionMn', e.target.value)} required rows={3}
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 resize-none"
+          className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-purple-500 resize-none"
           placeholder="Курсын тайлбар..." />
       </div>
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">Тайлбар (Англи)</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Тайлбар (Англи)</label>
         <textarea value={form.description} onChange={e => set('description', e.target.value)} required rows={3}
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-purple-500 resize-none"
+          className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white focus:outline-none focus:border-purple-500 resize-none"
           placeholder="Course description..." />
       </div>
 

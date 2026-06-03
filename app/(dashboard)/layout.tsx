@@ -10,7 +10,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!user) redirect('/login')
 
   return (
-    <div className="min-h-screen bg-[#0d1220] flex">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0d1220] flex">
       <DashboardSidebar userId={user.userId} role={user.role} />
       <main className="flex-1 lg:ml-64 p-6 lg:p-8">{children}</main>
       <ChatWidget />

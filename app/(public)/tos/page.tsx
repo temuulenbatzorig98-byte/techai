@@ -9,16 +9,16 @@ export default function TosPage() {
     <main className="hero-bg min-h-screen">
       <Navbar />
       <div className="max-w-3xl mx-auto px-4 pt-32 pb-20">
-        <div className="bg-[#111827] border border-white/10 rounded-2xl p-8 md:p-12 space-y-10 text-sm leading-relaxed text-gray-300">
+        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl p-8 md:p-12 space-y-10 text-sm leading-relaxed text-slate-700 dark:text-gray-300">
 
           {/* TOS */}
           <section>
-            <h1 className="font-syne text-2xl font-bold text-white mb-1">Үйлчилгээний нөхцөл – Negun AI</h1>
-            <p className="text-xs text-gray-500 mb-6">Хүчин төгөлдөр огноо: 2026.06.02</p>
+            <h1 className="font-syne text-2xl font-bold text-slate-900 dark:text-white mb-1">Үйлчилгээний нөхцөл – Negun AI</h1>
+            <p className="text-xs text-slate-400 dark:text-gray-500 mb-6">Хүчин төгөлдөр огноо: 2026.06.02</p>
             <p className="mb-4">
               Negun AI ("бид", "манай", "үйлчилгээ") нь энэхүү платформ, вэбсайт, AI хэрэгслүүд, сургалтын материал болон холбогдох бүх үйлчилгээ (цаашид "Үйлчилгээ" гэх)-ийг ашиглах нөхцөлийг дараах байдлаар тодорхойлж байна.
             </p>
-            <p className="mb-6 text-gray-400">Negun AI-г ашигласнаар та эдгээр нөхцөлийг бүрэн хүлээн зөвшөөрсөнд тооцогдоно. Хэрэв зөвшөөрөхгүй бол үйлчилгээг ашиглахгүй байхыг зөвлөж байна.</p>
+            <p className="mb-6 text-slate-500 dark:text-gray-400">Negun AI-г ашигласнаар та эдгээр нөхцөлийг бүрэн хүлээн зөвшөөрсөнд тооцогдоно. Хэрэв зөвшөөрөхгүй бол үйлчилгээг ашиглахгүй байхыг зөвлөж байна.</p>
 
             {[
               {
@@ -60,9 +60,9 @@ export default function TosPage() {
               },
             ].map(({ title, items, prefix }) => (
               <div key={title} className="mb-6">
-                <h2 className="font-syne font-semibold text-white mb-2">{title}</h2>
-                {prefix && <p className="text-gray-400 mb-1">{prefix}</p>}
-                <ul className="list-disc list-inside space-y-1 text-gray-400">
+                <h2 className="font-syne font-semibold text-slate-900 dark:text-white mb-2">{title}</h2>
+                {prefix && <p className="text-slate-500 dark:text-gray-400 mb-1">{prefix}</p>}
+                <ul className="list-disc list-inside space-y-1 text-slate-500 dark:text-gray-400">
                   {items.map((item) => <li key={item}>{item}</li>)}
                 </ul>
               </div>
@@ -95,24 +95,24 @@ export default function TosPage() {
               },
             ].map(({ title, text }) => (
               <div key={title} className="mb-6">
-                <h2 className="font-syne font-semibold text-white mb-2">{title}</h2>
-                <p className="text-gray-400">{text}</p>
+                <h2 className="font-syne font-semibold text-slate-900 dark:text-white mb-2">{title}</h2>
+                <p className="text-slate-500 dark:text-gray-400">{text}</p>
               </div>
             ))}
 
             <div className="mb-6">
-              <h2 className="font-syne font-semibold text-white mb-2">11. Холбоо барих</h2>
-              <p className="text-gray-400">Email: <a href="mailto:support@negun.ai" className="text-purple-400 hover:underline">support@negun.ai</a></p>
-              <p className="text-gray-400">Website: <a href="https://negun.ai" className="text-purple-400 hover:underline">https://negun.ai</a></p>
+              <h2 className="font-syne font-semibold text-slate-900 dark:text-white mb-2">11. Холбоо барих</h2>
+              <p className="text-slate-500 dark:text-gray-400">Email: <a href="mailto:support@negun.ai" className="text-purple-400 hover:underline">support@negun.ai</a></p>
+              <p className="text-slate-500 dark:text-gray-400">Website: <a href="https://negun.ai" className="text-purple-400 hover:underline">https://negun.ai</a></p>
             </div>
           </section>
 
-          <hr className="border-white/10" />
+          <hr className="border-slate-200 dark:border-white/10" />
 
           {/* Privacy Policy */}
           <section>
-            <h1 className="font-syne text-2xl font-bold text-white mb-1">Нууцлалын бодлого – Negun AI</h1>
-            <p className="text-xs text-gray-500 mb-6">Хүчин төгөлдөр огноо: 2026.06.02</p>
+            <h1 className="font-syne text-2xl font-bold text-slate-900 dark:text-white mb-1">Нууцлалын бодлого – Negun AI</h1>
+            <p className="text-xs text-slate-400 dark:text-gray-500 mb-6">Хүчин төгөлдөр огноо: 2026.06.02</p>
             <p className="mb-4">
               Negun AI нь хэрэглэгчийн хувийн мэдээллийн аюулгүй байдал, нууцлалыг хамгаалахыг эрхэмлэдэг.
               Энэхүү Нууцлалын бодлого нь таны мэдээллийг хэрхэн цуглуулах, ашиглах, хадгалах, хамгаалах талаар тайлбарлана.
@@ -161,21 +161,21 @@ export default function TosPage() {
               },
             ].map(({ title, text }) => (
               <div key={title} className="mb-6">
-                <h2 className="font-syne font-semibold text-white mb-2">{title}</h2>
-                <p className="text-gray-400">{text}</p>
+                <h2 className="font-syne font-semibold text-slate-900 dark:text-white mb-2">{title}</h2>
+                <p className="text-slate-500 dark:text-gray-400">{text}</p>
               </div>
             ))}
 
             <div>
-              <h2 className="font-syne font-semibold text-white mb-2">11. Холбоо барих</h2>
-              <p className="text-gray-400">Email: <a href="mailto:support@negun.ai" className="text-purple-400 hover:underline">support@negun.ai</a></p>
-              <p className="text-gray-400">Website: <a href="https://negun.ai" className="text-purple-400 hover:underline">https://negun.ai</a></p>
+              <h2 className="font-syne font-semibold text-slate-900 dark:text-white mb-2">11. Холбоо барих</h2>
+              <p className="text-slate-500 dark:text-gray-400">Email: <a href="mailto:support@negun.ai" className="text-purple-400 hover:underline">support@negun.ai</a></p>
+              <p className="text-slate-500 dark:text-gray-400">Website: <a href="https://negun.ai" className="text-purple-400 hover:underline">https://negun.ai</a></p>
             </div>
           </section>
         </div>
 
         <div className="text-center mt-8">
-          <Link href="/register" className="text-sm text-gray-500 hover:text-gray-300 transition">← Бүртгэлийн хуудас руу буцах</Link>
+          <Link href="/register" className="text-sm text-slate-400 dark:text-gray-500 hover:text-slate-700 dark:text-gray-300 transition">← Бүртгэлийн хуудас руу буцах</Link>
         </div>
       </div>
       <Footer />

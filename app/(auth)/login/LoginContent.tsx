@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -49,11 +49,11 @@ export function LoginContent() {
           <Link href="/" className="font-syne text-2xl font-bold gradient-text">
             Negun AI
           </Link>
-          <p className="text-gray-400 mt-2">Тавтай морилно уу</p>
+          <p className="text-slate-500 dark:text-gray-400 mt-2">Тавтай морилно уу</p>
         </div>
 
-        <div className="bg-[#111827] border border-white/10 rounded-2xl p-8">
-          <h1 className="font-syne text-xl font-bold text-white mb-6">Нэвтрэх</h1>
+        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl p-8">
+          <h1 className="font-syne text-xl font-bold text-slate-900 dark:text-white mb-6">Нэвтрэх</h1>
 
           {error && (
             <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl mb-4">
@@ -63,24 +63,24 @@ export function LoginContent() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm text-gray-400 mb-1.5">Имэйл</label>
+              <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Имэйл</label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                 placeholder="email@example.com"
               />
             </div>
             <div>
-              <label className="block text-sm text-gray-400 mb-1.5">Нууц үг</label>
+              <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Нууц үг</label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                 placeholder="••••••••"
               />
             </div>
@@ -98,7 +98,7 @@ export function LoginContent() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-400 mt-6">
+          <p className="text-center text-sm text-slate-500 dark:text-gray-400 mt-6">
             Бүртгэл байхгүй юу?{' '}
             <Link href="/register" className="text-purple-400 hover:text-purple-300">
               Бүртгүүлэх

@@ -15,18 +15,30 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   try {
     const data = schema.parse(await req.json())
 
+    // Verify the user is enrolled in the course that owns this lesson
+    const lesson = await prisma.lesson.findUnique({
+      where: { id: params.id },
+      select: { section: { select: { courseId: true } } },
+    })
+    if (!lesson) return NextResponse.json({ error: 'Хичээл олдсонгүй' }, { status: 404 })
+
+    const enrolled = await prisma.enrollment.findUnique({
+      where: { userId_courseId: { userId: session.userId, courseId: lesson.section.courseId } },
+    })
+    if (!enrolled) return NextResponse.json({ error: 'Энэ курст бүртгэгдээгүй байна' }, { status: 403 })
+
     const progress = await prisma.lessonProgress.upsert({
       where: { userId_lessonId: { userId: session.userId, lessonId: params.id } },
       update: {
         watchedTime: data.watchedTime,
-        completed: data.completed ?? false,
+        ...(data.completed === true && { completed: true }),
         lastWatchAt: new Date(),
       },
       create: {
         userId: session.userId,
         lessonId: params.id,
         watchedTime: data.watchedTime,
-        completed: data.completed ?? false,
+        completed: data.completed === true,
       },
     })
 

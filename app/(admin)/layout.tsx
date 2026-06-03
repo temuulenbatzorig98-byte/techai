@@ -9,7 +9,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   if (!user || user.role !== 'ADMIN') redirect('/dashboard')
 
   return (
-    <div className="min-h-screen bg-[#0d1220] flex">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#0d1220] flex">
       <AdminSidebar />
       <main className="flex-1 lg:ml-64 p-6 lg:p-8">{children}</main>
     </div>

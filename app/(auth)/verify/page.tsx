@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -63,11 +63,11 @@ export default function VerifyPage() {
           </Link>
         </div>
 
-        <div className="bg-[#111827] border border-white/10 rounded-2xl p-8 text-center">
+        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl p-8 text-center">
           <div className="text-4xl mb-4">📧</div>
-          <h1 className="font-syne text-xl font-bold text-white mb-2">Имэйл баталгаажуулах</h1>
-          <p className="text-gray-400 text-sm mb-8">
-            <span className="text-white">{email}</span> хаяг руу 6 оронтой код илгээлээ
+          <h1 className="font-syne text-xl font-bold text-slate-900 dark:text-white mb-2">Имэйл баталгаажуулах</h1>
+          <p className="text-slate-500 dark:text-gray-400 text-sm mb-8">
+            <span className="text-slate-900 dark:text-white">{email}</span> хаяг руу 6 оронтой код илгээлээ
           </p>
 
           {error && (
@@ -88,7 +88,7 @@ export default function VerifyPage() {
                   value={c}
                   onChange={(e) => handleChange(i, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(i, e)}
-                  className="w-12 h-14 text-center text-xl font-bold bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-500 transition"
+                  className="w-12 h-14 text-center text-xl font-bold bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:border-purple-500 transition"
                 />
               ))}
             </div>

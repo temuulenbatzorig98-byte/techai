@@ -10,7 +10,7 @@ export default async function AdminCouponsPage() {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="font-syne text-2xl font-bold text-white mb-8">Купон удирдлага</h1>
+      <h1 className="font-syne text-2xl font-bold text-slate-900 dark:text-white mb-8">Купон удирдлага</h1>
       <CouponManager coupons={coupons} />
     </div>
   )

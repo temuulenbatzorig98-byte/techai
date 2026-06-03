@@ -50,7 +50,7 @@ export function QPAYEnrollButton({ courseId, courseTitle, amount }: Props) {
       >
         Курст бүртгүүлэх — ₮{amount.toLocaleString()}
       </button>
-      <p className="text-xs text-gray-500 text-center mt-2">QPay, банкны апп-аар төлнө</p>
+      <p className="text-xs text-slate-400 dark:text-gray-500 text-center mt-2">QPay, банкны апп-аар төлнө</p>
 
       {showModal && (
         <QPAYModal

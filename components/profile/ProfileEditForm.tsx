@@ -59,35 +59,35 @@ export function ProfileEditForm({ user }: { user: User }) {
       )}
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">Нэр</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Нэр</label>
         <input
           value={name}
           onChange={e => setName(e.target.value)}
           required
           minLength={2}
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+          className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
           placeholder="Таны нэр"
         />
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">Имэйл</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Имэйл</label>
         <input
           value={user.email ?? ''}
           disabled
-          className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-gray-500 cursor-not-allowed"
+          className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-400 dark:text-gray-500 cursor-not-allowed"
         />
         <p className="text-xs text-gray-600 mt-1">Имэйл хаягийг өөрчлөх боломжгүй</p>
       </div>
 
       <div>
-        <label className="block text-sm text-gray-400 mb-1.5">Утасны дугаар</label>
+        <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Утасны дугаар</label>
         <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm select-none">+976</span>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-gray-500 text-sm select-none">+976</span>
           <input
             value={phone}
             onChange={e => setPhone(e.target.value.replace(/\D/g, '').slice(0, 8))}
-            className="w-full bg-white/5 border border-white/10 rounded-xl pl-16 pr-12 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl pl-16 pr-12 py-3 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
             placeholder="88001234"
             inputMode="numeric"
           />
@@ -95,7 +95,7 @@ export function ProfileEditForm({ user }: { user: User }) {
             <button
               type="button"
               onClick={clearPhone}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-red-400 transition text-lg leading-none"
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-gray-500 hover:text-red-400 transition text-lg leading-none"
               title="Устгах"
             >
               ×

@@ -14,18 +14,16 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
 
   if (!lesson) return NextResponse.json({ error: 'Хичээл олдсонгүй' }, { status: 404 })
 
-  if (!lesson.isFree) {
-    const enrollment = await prisma.enrollment.findUnique({
-      where: {
-        userId_courseId: {
-          userId: session.userId,
-          courseId: lesson.section.courseId,
-        },
+  const enrollment = await prisma.enrollment.findUnique({
+    where: {
+      userId_courseId: {
+        userId: session.userId,
+        courseId: lesson.section.courseId,
       },
-    })
-    if (!enrollment && session.role !== 'ADMIN') {
-      return NextResponse.json({ error: 'Курст бүртгэгдээгүй байна' }, { status: 403 })
-    }
+    },
+  })
+  if (!enrollment && session.role !== 'ADMIN') {
+    return NextResponse.json({ error: 'Курст бүртгэгдээгүй байна' }, { status: 403 })
   }
 
   if (!lesson.videoKey) {

@@ -71,18 +71,18 @@ function R2Picker({ onSelect, onClose }: { onSelect: (key: string) => void; onCl
 
   return (
     <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-[60] p-4">
-      <div className="bg-[#0d1220] border border-white/10 rounded-2xl w-full max-w-2xl flex flex-col" style={{ maxHeight: '80vh' }}>
-        <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 shrink-0">
-          <h3 className="font-syne font-bold text-white">Cloudflare R2 — Бичлэг сонгох</h3>
-          <button onClick={onClose} className="text-gray-400 hover:text-white text-xl leading-none">✕</button>
+      <div className="bg-white dark:bg-[#0d1220] border border-slate-200 dark:border-white/10 rounded-2xl w-full max-w-2xl flex flex-col" style={{ maxHeight: '80vh' }}>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-slate-200 dark:border-white/10 shrink-0">
+          <h3 className="font-syne font-bold text-slate-900 dark:text-white">Cloudflare R2 — Бичлэг сонгох</h3>
+          <button onClick={onClose} className="text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white text-xl leading-none">✕</button>
         </div>
 
-        <div className="px-5 py-3 border-b border-white/10 shrink-0">
+        <div className="px-5 py-3 border-b border-slate-200 dark:border-white/10 shrink-0">
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Нэрээр хайх..."
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500"
+            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-gray-600 focus:outline-none focus:border-purple-500"
             autoFocus
           />
         </div>
@@ -94,7 +94,7 @@ function R2Picker({ onSelect, onClose }: { onSelect: (key: string) => void; onCl
             </div>
           )}
           {!loading && filtered.length === 0 && (
-            <div className="text-center py-12 text-gray-500 text-sm">
+            <div className="text-center py-12 text-slate-400 dark:text-gray-500 text-sm">
               {files.length === 0 ? 'R2 bucket хоосон байна' : 'Хайлтад тохирсон файл олдсонгүй'}
             </div>
           )}
@@ -102,17 +102,17 @@ function R2Picker({ onSelect, onClose }: { onSelect: (key: string) => void; onCl
             <button
               key={f.key}
               onClick={() => onSelect(f.key)}
-              className="w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-white/5 transition text-left group"
+              className="w-full flex items-center gap-4 px-4 py-3 rounded-xl hover:bg-slate-50 dark:hover:bg-white/5 transition text-left group"
             >
               <div className="w-10 h-10 bg-purple-600/20 rounded-xl flex items-center justify-center shrink-0 text-lg group-hover:bg-purple-600/40 transition">
                 🎬
               </div>
               <div className="min-w-0 flex-1">
-                <p className="text-sm text-white font-medium truncate">{f.name}</p>
-                <p className="text-xs text-gray-500 truncate">{f.key}</p>
+                <p className="text-sm text-slate-900 dark:text-white font-medium truncate">{f.name}</p>
+                <p className="text-xs text-slate-400 dark:text-gray-500 truncate">{f.key}</p>
               </div>
               <div className="shrink-0 text-right">
-                <p className="text-xs text-gray-400">{formatSize(f.size)}</p>
+                <p className="text-xs text-slate-500 dark:text-gray-400">{formatSize(f.size)}</p>
                 {f.lastModified && (
                   <p className="text-xs text-gray-600">{new Date(f.lastModified).toLocaleDateString('mn-MN')}</p>
                 )}
@@ -121,7 +121,7 @@ function R2Picker({ onSelect, onClose }: { onSelect: (key: string) => void; onCl
           ))}
         </div>
 
-        <div className="px-5 py-3 border-t border-white/10 shrink-0">
+        <div className="px-5 py-3 border-t border-slate-200 dark:border-white/10 shrink-0">
           <p className="text-xs text-gray-600">{files.length} файл олдлоо</p>
         </div>
       </div>
@@ -145,7 +145,7 @@ function VideoKeyInput({ value, onChange }: { value: string; onChange: (v: strin
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder="R2 key эсвэл R2-с сонгох"
-          className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500"
+          className="flex-1 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-gray-600 focus:outline-none focus:border-purple-500"
         />
         <button
           type="button"
@@ -354,9 +354,9 @@ export default function AdminCourseDetailPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Link href="/admin/courses" className="text-gray-400 hover:text-white text-sm">← Курсууд</Link>
+          <Link href="/admin/courses" className="text-slate-500 dark:text-gray-400 hover:text-slate-900 dark:hover:text-white text-sm">← Курсууд</Link>
           <span className="text-gray-600">/</span>
-          <h1 className="font-syne text-xl font-bold text-white">{course.titleMn}</h1>
+          <h1 className="font-syne text-xl font-bold text-slate-900 dark:text-white">{course.titleMn}</h1>
         </div>
         <div className="flex items-center gap-3">
           {msg && <span className="text-green-400 text-sm">{msg}</span>}
@@ -388,9 +388,9 @@ export default function AdminCourseDetailPage() {
       </div>
 
       {/* Thumbnail */}
-      <div className="bg-[#111827] border border-white/10 rounded-2xl overflow-hidden">
-        <div className="px-5 py-3 border-b border-white/10 flex items-center justify-between">
-          <p className="text-sm font-semibold text-gray-300">Зураг (Thumbnail)</p>
+      <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden">
+        <div className="px-5 py-3 border-b border-slate-200 dark:border-white/10 flex items-center justify-between">
+          <p className="text-sm font-semibold text-slate-700 dark:text-gray-300">Зураг (Thumbnail)</p>
           <button
             onClick={() => thumbInputRef.current?.click()}
             disabled={uploadingThumb}
@@ -429,19 +429,19 @@ export default function AdminCourseDetailPage() {
           )}
           {!uploadingThumb && (thumbPreview || course.thumbnailUrl) && (
             <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition flex items-center justify-center">
-              <span className="text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">Зураг солих</span>
+              <span className="text-slate-900 dark:text-white text-sm font-medium opacity-0 group-hover:opacity-100 transition">Зураг солих</span>
             </div>
           )}
         </div>
       </div>
 
       {/* Course info */}
-      <div className="bg-[#111827] border border-white/10 rounded-2xl p-5 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-        <div><p className="text-gray-500 mb-1">Үнэ</p><p className="text-white font-semibold">₮{course.price.toLocaleString()}</p></div>
-        <div><p className="text-gray-500 mb-1">Ангилал</p><p className="text-white font-semibold">{course.category}</p></div>
-        <div><p className="text-gray-500 mb-1">Түвшин</p><p className="text-white font-semibold">{course.level}</p></div>
+      <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl p-5 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+        <div><p className="text-slate-400 dark:text-gray-500 mb-1">Үнэ</p><p className="text-slate-900 dark:text-white font-semibold">₮{course.price.toLocaleString()}</p></div>
+        <div><p className="text-slate-400 dark:text-gray-500 mb-1">Ангилал</p><p className="text-slate-900 dark:text-white font-semibold">{course.category}</p></div>
+        <div><p className="text-slate-400 dark:text-gray-500 mb-1">Түвшин</p><p className="text-slate-900 dark:text-white font-semibold">{course.level}</p></div>
         <div>
-          <p className="text-gray-500 mb-1">Төлөв</p>
+          <p className="text-slate-400 dark:text-gray-500 mb-1">Төлөв</p>
           <p className={`font-semibold ${course.isPublished ? 'text-green-400' : 'text-amber-400'}`}>
             {course.isPublished ? '● Нийтлэгдсэн' : '● Нуугдсан'}
           </p>
@@ -451,16 +451,16 @@ export default function AdminCourseDetailPage() {
       {/* Sections & Lessons */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-syne text-lg font-bold text-white">Бүлэг ба хичээлүүд</h2>
-          <span className="text-xs text-gray-500">{course.sections.flatMap((s) => s.lessons).length} хичээл</span>
+          <h2 className="font-syne text-lg font-bold text-slate-900 dark:text-white">Бүлэг ба хичээлүүд</h2>
+          <span className="text-xs text-slate-400 dark:text-gray-500">{course.sections.flatMap((s) => s.lessons).length} хичээл</span>
         </div>
 
         <div className="space-y-4">
           {course.sections.map((section) => (
-            <div key={section.id} className="bg-[#111827] border border-white/10 rounded-2xl overflow-hidden">
+            <div key={section.id} className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl overflow-hidden">
               {/* Section header */}
-              <div className="flex items-center justify-between px-5 py-3 bg-white/5 border-b border-white/10">
-                <p className="font-semibold text-white">{section.title}</p>
+              <div className="flex items-center justify-between px-5 py-3 bg-slate-50 dark:bg-white/5 border-b border-slate-200 dark:border-white/10">
+                <p className="font-semibold text-slate-900 dark:text-white">{section.title}</p>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => { setAddingLessonTo(section.id); setNewLesson({ title: '', titleMn: '', videoKey: '', isFree: false }) }}
@@ -477,9 +477,9 @@ export default function AdminCourseDetailPage() {
                 {section.lessons.map((lesson) => (
                   <div key={lesson.id} className="flex items-center justify-between px-5 py-3">
                     <div className="flex items-center gap-3 min-w-0">
-                      <span className="text-gray-500 text-xs w-5 shrink-0">{lesson.order}.</span>
+                      <span className="text-slate-400 dark:text-gray-500 text-xs w-5 shrink-0">{lesson.order}.</span>
                       <div className="min-w-0">
-                        <p className="text-sm text-white truncate">{lesson.titleMn || lesson.title}</p>
+                        <p className="text-sm text-slate-900 dark:text-white truncate">{lesson.titleMn || lesson.title}</p>
                         {lesson.videoKey
                           ? <p className="text-xs text-green-500/70">☁ {lesson.videoKey.split('/').pop()}</p>
                           : <p className="text-xs text-gray-600">Видео байхгүй</p>
@@ -490,7 +490,7 @@ export default function AdminCourseDetailPage() {
                       {lesson.isFree && <span className="text-xs bg-cyan-500/20 text-cyan-400 px-2 py-0.5 rounded-full">Үнэгүй</span>}
                       <button
                         onClick={() => setEditingLesson({ ...lesson, sectionId: section.id })}
-                        className="text-xs px-3 py-1 border border-white/10 text-gray-300 rounded-lg hover:bg-white/5"
+                        className="text-xs px-3 py-1 border border-slate-200 dark:border-white/10 text-slate-700 dark:text-gray-300 rounded-lg hover:bg-slate-50 dark:hover:bg-white/5"
                       >
                         Засах
                       </button>
@@ -509,29 +509,29 @@ export default function AdminCourseDetailPage() {
                   <p className="text-xs font-semibold text-purple-300">Шинэ хичээл нэмэх</p>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="text-xs text-gray-400 mb-1 block">Гарчиг (MN) *</label>
+                      <label className="text-xs text-slate-500 dark:text-gray-400 mb-1 block">Гарчиг (MN) *</label>
                       <input
                         value={newLesson.titleMn}
                         onChange={(e) => setNewLesson((p) => ({ ...p, titleMn: e.target.value }))}
                         placeholder="1-р хичээл: Танилцуулга"
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500"
+                        className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white placeholder-gray-600 focus:outline-none focus:border-purple-500"
                       />
                     </div>
                     <div>
-                      <label className="text-xs text-gray-400 mb-1 block">Гарчиг (EN) *</label>
+                      <label className="text-xs text-slate-500 dark:text-gray-400 mb-1 block">Гарчиг (EN) *</label>
                       <input
                         value={newLesson.title}
                         onChange={(e) => setNewLesson((p) => ({ ...p, title: e.target.value }))}
                         placeholder="Lesson 1: Introduction"
-                        className="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-600 focus:outline-none focus:border-purple-500"
+                        className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-lg px-3 py-2 text-sm text-slate-900 dark:text-white placeholder-gray-600 focus:outline-none focus:border-purple-500"
                       />
                     </div>
                   </div>
                   <div>
-                    <label className="text-xs text-gray-400 mb-1 block">Бичлэг сонгох</label>
+                    <label className="text-xs text-slate-500 dark:text-gray-400 mb-1 block">Бичлэг сонгох</label>
                     <VideoKeyInput value={newLesson.videoKey} onChange={(v) => setNewLesson((p) => ({ ...p, videoKey: v }))} />
                   </div>
-                  <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+                  <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-gray-300 cursor-pointer">
                     <input type="checkbox" checked={newLesson.isFree} onChange={(e) => setNewLesson((p) => ({ ...p, isFree: e.target.checked }))} className="w-4 h-4 rounded" />
                     Үнэгүй хичээл (preview)
                   </label>
@@ -543,7 +543,7 @@ export default function AdminCourseDetailPage() {
                     >
                       Нэмэх
                     </button>
-                    <button onClick={() => setAddingLessonTo(null)} className="px-4 py-2 border border-white/10 text-gray-400 rounded-lg text-sm hover:bg-white/5">
+                    <button onClick={() => setAddingLessonTo(null)} className="px-4 py-2 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-gray-400 rounded-lg text-sm hover:bg-slate-50 dark:hover:bg-white/5">
                       Болих
                     </button>
                   </div>
@@ -560,7 +560,7 @@ export default function AdminCourseDetailPage() {
             onChange={(e) => setNewSectionTitle(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && addSection()}
             placeholder="Шинэ бүлгийн нэр (жш: Бүлэг 1: Танилцуулга)"
-            className="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 text-sm"
+            className="flex-1 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-gray-600 focus:outline-none focus:border-purple-500 text-sm"
           />
           <button
             onClick={addSection}
@@ -575,38 +575,38 @@ export default function AdminCourseDetailPage() {
       {/* Edit lesson modal */}
       {editingLesson && (
         <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#111827] border border-white/10 rounded-2xl w-full max-w-lg p-6 space-y-4 max-h-[90vh] overflow-y-auto">
-            <h3 className="font-syne font-bold text-white text-lg">Хичээл засах</h3>
+          <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl w-full max-w-lg p-6 space-y-4 max-h-[90vh] overflow-y-auto">
+            <h3 className="font-syne font-bold text-slate-900 dark:text-white text-lg">Хичээл засах</h3>
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">Гарчиг (Монгол)</label>
+              <label className="text-xs text-slate-500 dark:text-gray-400 mb-1 block">Гарчиг (Монгол)</label>
               <input
                 value={editingLesson.titleMn ?? ''}
                 onChange={(e) => setEditingLesson((l) => l ? { ...l, titleMn: e.target.value } : l)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-purple-500"
+                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-purple-500"
               />
             </div>
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">Гарчиг (Англи)</label>
+              <label className="text-xs text-slate-500 dark:text-gray-400 mb-1 block">Гарчиг (Англи)</label>
               <input
                 value={editingLesson.title}
                 onChange={(e) => setEditingLesson((l) => l ? { ...l, title: e.target.value } : l)}
-                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-purple-500"
+                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white text-sm focus:outline-none focus:border-purple-500"
               />
             </div>
             <div>
-              <label className="text-xs text-gray-400 mb-1 block">Бичлэг сонгох</label>
+              <label className="text-xs text-slate-500 dark:text-gray-400 mb-1 block">Бичлэг сонгох</label>
               <VideoKeyInput
                 value={editingLesson.videoKey ?? ''}
                 onChange={(v) => setEditingLesson((l) => l ? { ...l, videoKey: v } : l)}
               />
             </div>
             <div className="flex gap-4">
-              <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-gray-300 cursor-pointer">
                 <input type="checkbox" checked={editingLesson.isFree}
                   onChange={(e) => setEditingLesson((l) => l ? { ...l, isFree: e.target.checked } : l)} />
                 Үнэгүй
               </label>
-              <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-gray-300 cursor-pointer">
                 <input type="checkbox" checked={editingLesson.isPublished}
                   onChange={(e) => setEditingLesson((l) => l ? { ...l, isPublished: e.target.checked } : l)} />
                 Нийтлэгдсэн
@@ -616,7 +616,7 @@ export default function AdminCourseDetailPage() {
               <button onClick={saveLesson} className="flex-1 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-xl font-semibold text-sm">
                 Хадгалах
               </button>
-              <button onClick={() => setEditingLesson(null)} className="flex-1 py-3 border border-white/10 text-gray-400 rounded-xl text-sm hover:bg-white/5">
+              <button onClick={() => setEditingLesson(null)} className="flex-1 py-3 border border-slate-200 dark:border-white/10 text-slate-500 dark:text-gray-400 rounded-xl text-sm hover:bg-slate-50 dark:hover:bg-white/5">
                 Болих
               </button>
             </div>

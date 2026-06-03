@@ -19,16 +19,16 @@ export default async function ProfilePage() {
 
   return (
     <div className="max-w-2xl mx-auto">
-      <h1 className="font-syne text-2xl font-bold text-white mb-8">Профайл</h1>
+      <h1 className="font-syne text-2xl font-bold text-slate-900 dark:text-white mb-8">Профайл</h1>
 
-      <div className="bg-[#111827] border border-white/10 rounded-2xl p-8 mb-6">
+      <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl p-8 mb-6">
         <div className="flex items-center gap-6 mb-8">
           <div className="w-20 h-20 rounded-full bg-gradient-to-br from-purple-600 to-cyan-500 flex items-center justify-center text-3xl font-bold text-white shrink-0">
             {user.name.charAt(0).toUpperCase()}
           </div>
           <div>
-            <h2 className="font-syne text-xl font-bold text-white">{user.name}</h2>
-            <p className="text-gray-400 text-sm">{user.role === 'ADMIN' ? 'Админ' : 'Оюутан'}</p>
+            <h2 className="font-syne text-xl font-bold text-slate-900 dark:text-white">{user.name}</h2>
+            <p className="text-slate-500 dark:text-gray-400 text-sm">{user.role === 'ADMIN' ? 'Админ' : 'Оюутан'}</p>
             <div className={`mt-1 inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full ${user.isVerified ? 'bg-green-500/10 text-green-400' : 'bg-yellow-500/10 text-yellow-400'}`}>
               {user.isVerified ? '✓ Баталгаажсан' : '⚠ Баталгаажаагүй'}
             </div>
@@ -36,11 +36,11 @@ export default async function ProfilePage() {
         </div>
 
         <div className="flex items-center gap-3 py-3 border-b border-white/5 mb-6">
-          <span className="text-sm text-gray-400 w-32 shrink-0">Бүртгүүлсэн</span>
-          <span className="text-sm text-white">{new Date(user.createdAt).toLocaleDateString('mn-MN')}</span>
+          <span className="text-sm text-slate-500 dark:text-gray-400 w-32 shrink-0">Бүртгүүлсэн</span>
+          <span className="text-sm text-slate-900 dark:text-white">{new Date(user.createdAt).toLocaleDateString('mn-MN')}</span>
         </div>
 
-        <h3 className="text-sm font-semibold text-gray-300 mb-4">Мэдээлэл засах</h3>
+        <h3 className="text-sm font-semibold text-slate-700 dark:text-gray-300 mb-4">Мэдээлэл засах</h3>
         <ProfileEditForm user={{ name: user.name, email: user.email, phone: user.phone }} />
       </div>
     </div>

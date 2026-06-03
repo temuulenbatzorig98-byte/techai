@@ -16,10 +16,15 @@ html {
 }
 
 body {
-  background: #0d1220;
-  color: #fff;
+  background: #ffffff;
+  color: #0f172a;
   font-family: var(--font-inter);
   -webkit-font-smoothing: antialiased;
+}
+
+.dark body {
+  background: #0d1220;
+  color: #ffffff;
 }
 
 .gradient-text {
@@ -35,20 +40,38 @@ body {
 
 .hero-bg {
   background:
+    radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.12), transparent),
+    #f8fafc;
+}
+
+.dark .hero-bg {
+  background:
     radial-gradient(ellipse 80% 50% at 50% -20%, rgba(124, 58, 237, 0.25), transparent),
     #0d1220;
 }
 
+/* Light mode scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #111827;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #374151;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-track {
+  background: #111827;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #374151;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
   background: #4b5563;
 }

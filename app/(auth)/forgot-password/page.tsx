@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -59,8 +59,8 @@ export default function ForgotPasswordPage() {
         <div className="text-center mb-8">
           <Link href="/" className="font-syne text-2xl font-bold gradient-text">Negun AI</Link>
         </div>
-        <div className="bg-[#111827] border border-white/10 rounded-2xl p-8">
-          <h1 className="font-syne text-xl font-bold text-white mb-6">Нууц үг сэргээх</h1>
+        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl p-8">
+          <h1 className="font-syne text-xl font-bold text-slate-900 dark:text-white mb-6">Нууц үг сэргээх</h1>
 
           {error && <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl mb-4">{error}</div>}
           {success && <div className="bg-green-500/10 border border-green-500/20 text-green-400 text-sm px-4 py-3 rounded-xl mb-4">{success}</div>}
@@ -68,9 +68,9 @@ export default function ForgotPasswordPage() {
           {step === 'email' ? (
             <form onSubmit={handleEmail} className="space-y-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-1.5">Имэйл хаяг</label>
+                <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Имэйл хаяг</label>
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} required
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
+                  className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
                   placeholder="email@example.com" />
               </div>
               <button type="submit" disabled={loading}
@@ -81,15 +81,15 @@ export default function ForgotPasswordPage() {
           ) : (
             <form onSubmit={handleReset} className="space-y-4">
               <div>
-                <label className="block text-sm text-gray-400 mb-1.5">OTP код</label>
+                <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">OTP код</label>
                 <input value={code} onChange={e => setCode(e.target.value)} maxLength={6} required
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
+                  className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
                   placeholder="6 оронтой код" />
               </div>
               <div>
-                <label className="block text-sm text-gray-400 mb-1.5">Шинэ нууц үг</label>
+                <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">Шинэ нууц үг</label>
                 <input type="password" value={password} onChange={e => setPassword(e.target.value)} required minLength={8}
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
+                  className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-purple-500"
                   placeholder="8+ тэмдэгт" />
               </div>
               <button type="submit" disabled={loading}
@@ -99,7 +99,7 @@ export default function ForgotPasswordPage() {
             </form>
           )}
 
-          <p className="text-center text-sm text-gray-400 mt-6">
+          <p className="text-center text-sm text-slate-500 dark:text-gray-400 mt-6">
             <Link href="/login" className="text-purple-400 hover:text-purple-300">← Нэвтрэх хуудас</Link>
           </p>
         </div>

@@ -21,7 +21,7 @@ export default async function LessonPage({ params }: Props) {
 
   const [lesson, course] = await Promise.all([
     prisma.lesson.findUnique({
-      where: { id: params.lessonId },
+      where: { id: params.lessonId, section: { courseId: params.courseId } },
       include: { resources: true },
     }),
     prisma.course.findUnique({
@@ -41,11 +41,18 @@ export default async function LessonPage({ params }: Props) {
     where: { userId_lessonId: { userId: session.userId, lessonId: params.lessonId } },
   })
 
+  const completedLessonIds = await prisma.lessonProgress.findMany({
+    where: { userId: session.userId, lesson: { section: { courseId: params.courseId } }, completed: true },
+    select: { lessonId: true },
+  }).then((rows) => rows.map((r) => r.lessonId))
+
   return (
     <VideoLessonClient
       lesson={lesson}
       course={course}
       startAt={progress?.watchedTime || 0}
+      isCompleted={progress?.completed ?? false}
+      completedLessonIds={completedLessonIds}
     />
   )
 }

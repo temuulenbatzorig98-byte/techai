@@ -1,4 +1,4 @@
-﻿'use client'
+'use client'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -50,11 +50,11 @@ export default function RegisterPage() {
           <Link href="/" className="font-syne text-2xl font-bold gradient-text">
             Negun AI
           </Link>
-          <p className="text-gray-400 mt-2">Шинэ дансаа үүсгэнэ үү</p>
+          <p className="text-slate-500 dark:text-gray-400 mt-2">Шинэ дансаа үүсгэнэ үү</p>
         </div>
 
-        <div className="bg-[#111827] border border-white/10 rounded-2xl p-8">
-          <h1 className="font-syne text-xl font-bold text-white mb-6">Бүртгүүлэх</h1>
+        <div className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-2xl p-8">
+          <h1 className="font-syne text-xl font-bold text-slate-900 dark:text-white mb-6">Бүртгүүлэх</h1>
 
           {error && (
             <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl mb-4">
@@ -70,13 +70,13 @@ export default function RegisterPage() {
               { key: 'confirmPassword', label: 'Нууц үг давтах', type: 'password', placeholder: '••••••••' },
             ].map(({ key, label, type, placeholder }) => (
               <div key={key}>
-                <label className="block text-sm text-gray-400 mb-1.5">{label}</label>
+                <label className="block text-sm text-slate-500 dark:text-gray-400 mb-1.5">{label}</label>
                 <input
                   type={type}
                   value={form[key as keyof typeof form]}
                   onChange={(e) => setForm((p) => ({ ...p, [key]: e.target.value }))}
                   required
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
+                  className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-3 text-slate-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 transition"
                   placeholder={placeholder}
                 />
               </div>
@@ -88,7 +88,7 @@ export default function RegisterPage() {
                 onChange={(e) => setAgreed(e.target.checked)}
                 className="mt-0.5 w-4 h-4 rounded accent-purple-500 shrink-0 cursor-pointer"
               />
-              <span className="text-sm text-gray-400 leading-relaxed">
+              <span className="text-sm text-slate-500 dark:text-gray-400 leading-relaxed">
                 <Link href="/tos" target="_blank" className="text-purple-400 hover:text-purple-300 underline underline-offset-2">
                   Үйлчилгээний нөхцөл болон Нууцлалын бодлого
                 </Link>
@@ -105,7 +105,7 @@ export default function RegisterPage() {
             </button>
           </form>
 
-          <p className="text-center text-sm text-gray-400 mt-6">
+          <p className="text-center text-sm text-slate-500 dark:text-gray-400 mt-6">
             Бүртгэлтэй юу?{' '}
             <Link href="/login" className="text-purple-400 hover:text-purple-300">
               Нэвтрэх

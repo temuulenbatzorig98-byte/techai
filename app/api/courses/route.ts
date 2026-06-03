@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
   const level = searchParams.get('level')
   const featured = searchParams.get('featured') === 'true'
 
-  const courses = await prisma.course.findMany({
+  const raw = await prisma.course.findMany({
     where: {
       isPublished: true,
       ...(category && { category }),
@@ -28,13 +28,19 @@ export async function GET(req: NextRequest) {
       level: true,
       category: true,
       rating: true,
-      totalStudents: true,
       totalLessons: true,
       totalDuration: true,
       isFeatured: true,
+      _count: { select: { enrollments: true } },
     },
-    orderBy: [{ isFeatured: 'desc' }, { totalStudents: 'desc' }],
+    orderBy: [{ isFeatured: 'desc' }, { createdAt: 'desc' }],
   })
+
+  const courses = raw.map(({ _count, ...c }) => ({
+    ...c,
+    totalStudents: _count.enrollments,
+    rating: c.rating > 0 ? c.rating : 4.8,
+  }))
 
   return NextResponse.json({ courses })
 }
