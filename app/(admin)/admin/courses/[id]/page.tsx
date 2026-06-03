@@ -4,6 +4,13 @@ import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useLoading } from '@/components/layout/GlobalLoader'
 
+interface Resource {
+  id: string
+  name: string
+  fileKey: string
+  fileType: string
+}
+
 interface Lesson {
   id: string
   title: string
@@ -13,6 +20,7 @@ interface Lesson {
   order: number
   isFree: boolean
   isPublished: boolean
+  resources?: Resource[]
 }
 
 interface Section {
@@ -179,6 +187,9 @@ export default function AdminCourseDetailPage() {
   const [newLesson, setNewLesson] = useState({ title: '', titleMn: '', videoKey: '', isFree: false })
 
   const [editingLesson, setEditingLesson] = useState<Lesson & { sectionId: string } | null>(null)
+  const [uploadingResource, setUploadingResource] = useState(false)
+  const [deletingResource, setDeletingResource] = useState<string | null>(null)
+  const resourceInputRef = useRef<HTMLInputElement>(null)
   const [granting, setGranting] = useState(false)
   const [thumbPreview, setThumbPreview] = useState<string | null>(null)
   const [uploadingThumb, setUploadingThumb] = useState(false)
@@ -197,6 +208,37 @@ export default function AdminCourseDetailPage() {
   const flash = (text: string) => {
     setMsg(text)
     setTimeout(() => setMsg(''), 3500)
+  }
+
+  const handleResourceUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!editingLesson) return
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploadingResource(true)
+    try {
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await fetch(`/api/admin/lessons/${editingLesson.id}/resources`, { method: 'POST', body: fd })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error)
+      setEditingLesson((l) => l ? { ...l, resources: [...(l.resources ?? []), data.resource] } : l)
+    } catch (err) {
+      flash(err instanceof Error ? err.message : 'Файл upload хийхэд алдаа гарлаа')
+    } finally {
+      setUploadingResource(false)
+      if (resourceInputRef.current) resourceInputRef.current.value = ''
+    }
+  }
+
+  const handleResourceDelete = async (resourceId: string) => {
+    if (!editingLesson) return
+    setDeletingResource(resourceId)
+    try {
+      await fetch(`/api/admin/resources/${resourceId}`, { method: 'DELETE' })
+      setEditingLesson((l) => l ? { ...l, resources: (l.resources ?? []).filter((r) => r.id !== resourceId) } : l)
+    } finally {
+      setDeletingResource(null)
+    }
   }
 
   const deleteCourse = async () => {
@@ -613,6 +655,47 @@ export default function AdminCourseDetailPage() {
                 Нийтлэгдсэн
               </label>
             </div>
+            {/* Resources */}
+            <div className="border-t border-slate-200 dark:border-white/10 pt-4">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-xs font-semibold text-slate-500 dark:text-gray-400 uppercase tracking-wide">Татах файлууд</label>
+                <button
+                  type="button"
+                  onClick={() => resourceInputRef.current?.click()}
+                  disabled={uploadingResource}
+                  className="text-xs px-3 py-1.5 bg-purple-600/20 text-purple-400 border border-purple-500/30 rounded-lg hover:bg-purple-600/30 transition disabled:opacity-50"
+                >
+                  {uploadingResource ? 'Байршуулж байна...' : '+ Файл нэмэх'}
+                </button>
+                <input ref={resourceInputRef} type="file" className="hidden" onChange={handleResourceUpload}
+                  accept=".pdf,.zip,.png,.jpg,.jpeg,.webp,.mp3,.docx,.xlsx,.pptx" />
+              </div>
+
+              {(editingLesson.resources ?? []).length === 0 ? (
+                <p className="text-xs text-slate-400 dark:text-gray-500 text-center py-3">Файл байхгүй</p>
+              ) : (
+                <div className="space-y-2">
+                  {(editingLesson.resources ?? []).map((r) => (
+                    <div key={r.id} className="flex items-center justify-between bg-slate-50 dark:bg-white/5 rounded-lg px-3 py-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-base shrink-0">
+                          {r.fileType === 'PDF' ? '📄' : r.fileType === 'ZIP' ? '🗜️' : r.fileType === 'IMAGE' ? '🖼️' : '📎'}
+                        </span>
+                        <span className="text-xs text-slate-700 dark:text-gray-300 truncate">{r.name}</span>
+                      </div>
+                      <button
+                        onClick={() => handleResourceDelete(r.id)}
+                        disabled={deletingResource === r.id}
+                        className="text-red-400 hover:text-red-300 text-xs ml-2 shrink-0 disabled:opacity-50"
+                      >
+                        {deletingResource === r.id ? '...' : '✕'}
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <div className="flex gap-2 pt-2">
               <button onClick={saveLesson} className="flex-1 py-3 bg-gradient-to-r from-purple-600 to-cyan-500 text-white rounded-xl font-semibold text-sm">
                 Хадгалах

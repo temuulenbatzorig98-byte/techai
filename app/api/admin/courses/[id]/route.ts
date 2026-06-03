@@ -18,7 +18,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     include: {
       sections: {
         orderBy: { order: 'asc' },
-        include: { lessons: { orderBy: { order: 'asc' } } },
+        include: { lessons: { orderBy: { order: 'asc' }, include: { resources: true } } },
       },
     },
   })
