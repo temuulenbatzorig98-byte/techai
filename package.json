@@ -27,6 +27,9 @@
     "resend": "^3.3.0",
     "zod": "^3.23.8"
   },
+  "overrides": {
+    "glob": "^11.0.0"
+  },
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",
