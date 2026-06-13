@@ -33,6 +33,18 @@ export async function getPresignedVideoUrl(key: string, expiresIn = 7200) {
   )
 }
 
+export async function getPresignedDownloadUrl(key: string, filename: string, expiresIn = 300) {
+  return getSignedUrl(
+    r2,
+    new GetObjectCommand({
+      Bucket: process.env.R2_BUCKET_NAME,
+      Key: key,
+      ResponseContentDisposition: `attachment; filename="${encodeURIComponent(filename)}"`,
+    }),
+    { expiresIn }
+  )
+}
+
 export async function deleteR2Object(key: string) {
   await r2.send(
     new DeleteObjectCommand({

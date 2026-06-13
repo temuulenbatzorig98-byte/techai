@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
-import { getPresignedVideoUrl } from '@/lib/r2'
+import { getPresignedDownloadUrl } from '@/lib/r2'
 
 export async function GET(
   req: NextRequest,
@@ -34,6 +34,6 @@ export async function GET(
     if (!enrolled) return NextResponse.json({ error: 'Курст бүртгэгдээгүй байна' }, { status: 403 })
   }
 
-  const url = await getPresignedVideoUrl(resource.fileKey, 300)
+  const url = await getPresignedDownloadUrl(resource.fileKey, resource.name, 300)
   return NextResponse.redirect(url)
 }
