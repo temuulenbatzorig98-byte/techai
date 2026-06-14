@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     locale: 'mn_MN',
     type: 'website',
   },
+  other: {
+    'facebook-domain-verification': 'eq2i9ahtgzsyldhi29ipc9ue2x8t2v',
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
