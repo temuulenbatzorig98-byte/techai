@@ -137,14 +137,49 @@ function R2Picker({ onSelect, onClose }: { onSelect: (key: string) => void; onCl
   )
 }
 
-// ── Video Key Input with R2 Picker ────────────────────────────
-function VideoKeyInput({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+// ── Video Key Input with R2 Picker + auto duration ───────────
+function VideoKeyInput({
+  value,
+  onChange,
+  onDuration,
+}: {
+  value: string
+  onChange: (v: string) => void
+  onDuration?: (seconds: number) => void
+}) {
   const [showPicker, setShowPicker] = useState(false)
+  const [detecting, setDetecting] = useState(false)
+
+  const extractDuration = async (key: string) => {
+    if (!key || !onDuration) return
+    setDetecting(true)
+    try {
+      const res = await fetch(`/api/admin/video-url-by-key?key=${encodeURIComponent(key)}`)
+      const { url } = await res.json()
+      const video = document.createElement('video')
+      video.preload = 'metadata'
+      video.src = url
+      video.onloadedmetadata = () => {
+        onDuration(Math.round(video.duration))
+        setDetecting(false)
+      }
+      video.onerror = () => setDetecting(false)
+    } catch {
+      setDetecting(false)
+    }
+  }
+
+  const handleSelect = (key: string) => {
+    onChange(key)
+    setShowPicker(false)
+    extractDuration(key)
+  }
+
   return (
     <div>
       {showPicker && (
         <R2Picker
-          onSelect={(key) => { onChange(key); setShowPicker(false) }}
+          onSelect={handleSelect}
           onClose={() => setShowPicker(false)}
         />
       )}
@@ -152,6 +187,7 @@ function VideoKeyInput({ value, onChange }: { value: string; onChange: (v: strin
         <input
           value={value}
           onChange={(e) => onChange(e.target.value)}
+          onBlur={(e) => e.target.value && extractDuration(e.target.value)}
           placeholder="R2 key эсвэл R2-с сонгох"
           className="flex-1 bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-xl px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-gray-600 focus:outline-none focus:border-purple-500"
         />
@@ -164,7 +200,9 @@ function VideoKeyInput({ value, onChange }: { value: string; onChange: (v: strin
         </button>
       </div>
       {value && (
-        <p className="text-xs text-green-500/70 mt-1.5">✓ {value}</p>
+        <p className="text-xs text-green-500/70 mt-1.5">
+          {detecting ? '⏳ Хугацаа тооцоолж байна...' : `✓ ${value}`}
+        </p>
       )}
     </div>
   )
@@ -184,7 +222,7 @@ export default function AdminCourseDetailPage() {
   const [addingSection, setAddingSection] = useState(false)
 
   const [addingLessonTo, setAddingLessonTo] = useState<string | null>(null)
-  const [newLesson, setNewLesson] = useState({ title: '', titleMn: '', videoKey: '', isFree: false })
+  const [newLesson, setNewLesson] = useState({ title: '', titleMn: '', videoKey: '', duration: 0, isFree: false })
 
   const [editingLesson, setEditingLesson] = useState<Lesson & { sectionId: string } | null>(null)
   const [uploadingResource, setUploadingResource] = useState(false)
@@ -300,13 +338,14 @@ export default function AdminCourseDetailPage() {
         title: newLesson.title.trim(),
         titleMn: newLesson.titleMn.trim() || undefined,
         videoKey: newLesson.videoKey.trim() || undefined,
+        duration: newLesson.duration,
         order,
         isFree: newLesson.isFree,
         isPublished: true,
       }),
     })
     if (res.ok) {
-      setNewLesson({ title: '', titleMn: '', videoKey: '', isFree: false })
+      setNewLesson({ title: '', titleMn: '', videoKey: '', duration: 0, isFree: false })
       setAddingLessonTo(null)
       await load()
       flash('Хичээл нэмэгдлээ')
@@ -324,6 +363,7 @@ export default function AdminCourseDetailPage() {
         title: editingLesson.title,
         titleMn: editingLesson.titleMn || undefined,
         videoKey: editingLesson.videoKey || undefined,
+        duration: editingLesson.duration,
         isFree: editingLesson.isFree,
         isPublished: editingLesson.isPublished,
       }),
@@ -572,7 +612,11 @@ export default function AdminCourseDetailPage() {
                   </div>
                   <div>
                     <label className="text-xs text-slate-500 dark:text-gray-400 mb-1 block">Бичлэг сонгох</label>
-                    <VideoKeyInput value={newLesson.videoKey} onChange={(v) => setNewLesson((p) => ({ ...p, videoKey: v }))} />
+                    <VideoKeyInput
+                      value={newLesson.videoKey}
+                      onChange={(v) => setNewLesson((p) => ({ ...p, videoKey: v }))}
+                      onDuration={(d) => setNewLesson((p) => ({ ...p, duration: d }))}
+                    />
                   </div>
                   <label className="flex items-center gap-2 text-sm text-slate-700 dark:text-gray-300 cursor-pointer">
                     <input type="checkbox" checked={newLesson.isFree} onChange={(e) => setNewLesson((p) => ({ ...p, isFree: e.target.checked }))} className="w-4 h-4 rounded" />
@@ -641,6 +685,7 @@ export default function AdminCourseDetailPage() {
               <VideoKeyInput
                 value={editingLesson.videoKey ?? ''}
                 onChange={(v) => setEditingLesson((l) => l ? { ...l, videoKey: v } : l)}
+                onDuration={(d) => setEditingLesson((l) => l ? { ...l, duration: d } : l)}
               />
             </div>
             <div className="flex gap-4">
