@@ -546,7 +546,7 @@ export default function AdminCourseDetailPage() {
                 <p className="font-semibold text-slate-900 dark:text-white">{section.title}</p>
                 <div className="flex items-center gap-2">
                   <button
-                    onClick={() => { setAddingLessonTo(section.id); setNewLesson({ title: '', titleMn: '', videoKey: '', isFree: false }) }}
+                    onClick={() => { setAddingLessonTo(section.id); setNewLesson({ title: '', titleMn: '', videoKey: '', duration: 0, isFree: false }) }}
                     className="text-xs px-3 py-1 bg-purple-600/30 text-purple-300 rounded-lg hover:bg-purple-600/50 transition"
                   >
                     + Хичээл нэмэх
