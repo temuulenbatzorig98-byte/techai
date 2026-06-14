@@ -23,12 +23,17 @@ async function main() {
     const totalStudents = randomInt(1000, 2000)
     const rating = randomRating()
 
+    // totalDuration секундээр: 3-6 цаг
+    const totalDuration = randomInt(3 * 3600, 6 * 3600)
+
     await prisma.course.update({
       where: { id: course.id },
-      data: { totalStudents, rating },
+      data: { totalStudents, rating, totalDuration },
     })
 
-    console.log(`✓ ${course.title} → ${totalStudents} оюутан, ${rating}★`)
+    const h = Math.floor(totalDuration / 3600)
+    const m = Math.floor((totalDuration % 3600) / 60)
+    console.log(`✓ ${course.title} → ${totalStudents} оюутан, ${rating}★, ${h}ц ${m}мин`)
   }
 
   console.log(`\nНийт ${courses.length} курс шинэчлэгдлээ.`)

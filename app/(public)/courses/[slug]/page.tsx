@@ -41,8 +41,9 @@ export default async function CourseDetailPage({ params }: Props) {
 
   const allLessons = course.sections.flatMap((s) => s.lessons)
   const totalLessons = allLessons.length
-  const totalDuration = allLessons.reduce((sum, l) => sum + l.duration, 0)
-  const totalStudents = course._count.enrollments
+  const calculatedDuration = allLessons.reduce((sum, l) => sum + l.duration, 0)
+  const totalDuration = calculatedDuration > 0 ? calculatedDuration : course.totalDuration
+  const totalStudents = course.totalStudents > 0 ? course.totalStudents : course._count.enrollments
   const rating = course.rating > 0 ? course.rating : 4.8
 
   const levelLabel: Record<string, string> = {
