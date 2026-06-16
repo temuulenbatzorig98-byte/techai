@@ -3,7 +3,7 @@ const QPAY_BASE = 'https://merchant.qpay.mn/v2'
 let accessToken: string | null = null
 let tokenExpiry = 0
 
-async function getToken(): Promise<string> {
+export async function getToken(): Promise<string> {
   if (accessToken && Date.now() < tokenExpiry) return accessToken
 
   const res = await fetch(`${QPAY_BASE}/auth/token`, {
