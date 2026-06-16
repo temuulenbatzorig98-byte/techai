@@ -14,9 +14,11 @@ export async function POST(req: NextRequest) {
     const token = await getToken()
     const baseUrl = process.env.NEXT_PUBLIC_URL!
 
+    // invoice_id нь invoice үүсгэсний ДАРАА л мэдэгддэг тул callback_url-д
+    // бид өөрсдөө сонгосон sender_invoice_no-г ашигладаг.
     const callbackUrl =
       `${baseUrl}/api/qpay/webhook` +
-      `?sender_id=${encodeURIComponent(sender_id)}&package=${encodeURIComponent(pkg)}&amount=${amount}`
+      `?sender_invoice_no=${encodeURIComponent(sender_invoice_no)}`
 
     const invoiceRes = await fetch('https://merchant.qpay.mn/v2/invoice', {
       method: 'POST',
@@ -40,21 +42,32 @@ export async function POST(req: NextRequest) {
     const invoice = await invoiceRes.json()
     const invoiceId: string = invoice.invoice_id
 
-    // QR PNG → R2-д хадгална (Facebook base64 зургийг дэмждэггүй)
-    const qrKey = `qr/drama/${invoiceId}.png`
-    await uploadBuffer(qrKey, Buffer.from(invoice.qr_image, 'base64'), 'image/png')
-
-    // Bank app URLs → R2-д JSON болгон хадгална (pay page serverless-д ч уншина)
-    const urlsKey = `qr/drama/${invoiceId}.json`
+    // sender_invoice_no → { sender_id, package, amount, qpay_invoice_id } mapping
+    // R2-д хадгална — serverless instance хооронд хуваалцах боломжтой
+    const mappingKey = `qr/drama/inv/${sender_invoice_no}.json`
     await uploadBuffer(
-      urlsKey,
+      mappingKey,
+      Buffer.from(JSON.stringify({ sender_id, package: pkg, amount, qpay_invoice_id: invoiceId })),
+      'application/json'
+    )
+
+    // QR PNG → R2 (Facebook Send API base64 зургийг дэмждэггүй)
+    await uploadBuffer(
+      `qr/drama/${invoiceId}.png`,
+      Buffer.from(invoice.qr_image, 'base64'),
+      'image/png'
+    )
+
+    // Bank app URLs → R2 JSON (pay page serverless-д ч уншина)
+    await uploadBuffer(
+      `qr/drama/${invoiceId}.json`,
       Buffer.from(JSON.stringify(invoice.urls ?? [])),
       'application/json'
     )
 
     return NextResponse.json({
       invoice_id: invoiceId,
-      qr_image: `${process.env.R2_PUBLIC_URL}/${qrKey}`,
+      qr_image: `${process.env.R2_PUBLIC_URL}/qr/drama/${invoiceId}.png`,
       pay_page_url: `${baseUrl}/pay/${invoiceId}`,
     })
   } catch (err) {

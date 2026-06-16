@@ -78,3 +78,15 @@ export async function uploadBuffer(key: string, buffer: Buffer, contentType: str
     })
   )
 }
+
+export async function readJson<T>(key: string): Promise<T | null> {
+  try {
+    const res = await r2.send(
+      new GetObjectCommand({ Bucket: process.env.R2_BUCKET_NAME, Key: key })
+    )
+    const text = await res.Body?.transformToString()
+    return text ? (JSON.parse(text) as T) : null
+  } catch {
+    return null
+  }
+}
