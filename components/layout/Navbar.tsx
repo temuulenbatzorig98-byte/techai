@@ -45,6 +45,7 @@ export function Navbar() {
 
   const navLinks = [
     { href: '/courses', label: 'Курсууд' },
+    { href: '/products', label: 'Бүтээгдэхүүн' },
     { href: '/about', label: 'Бидний тухай' },
   ]
 
