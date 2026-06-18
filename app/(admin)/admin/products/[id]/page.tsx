@@ -74,22 +74,24 @@ export default function AdminProductDetailPage() {
     setFileMsg('')
     setError('')
     try {
-      const fd = new FormData()
-      fd.append('file', file)
-      const res = await fetch('/api/admin/products/upload-file', { method: 'POST', body: fd })
+      const contentType = file.type || 'application/octet-stream'
+      const res = await fetch(`/api/admin/products/${id}/upload`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name, contentType }),
+      })
       const data = await res.json()
       if (!res.ok) { setError(data.error); return }
 
-      // Update product record with new file key
-      const updateRes = await fetch(`/api/admin/products/${id}`, {
+      const putRes = await fetch(data.uploadUrl, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fileKey: data.key, fileName: data.fileName }),
+        body: file,
+        headers: { 'Content-Type': contentType },
       })
-      if (!updateRes.ok) { setError('Файлын мэдээлэл хадгалахад алдаа гарлаа'); return }
+      if (!putRes.ok) { setError(`Upload алдаа: ${putRes.status}`); return }
 
-      setFileMsg(`✓ ${data.fileName}`)
-      if (product) setProduct({ ...product, fileName: data.fileName })
+      setFileMsg(`✓ ${file.name}`)
+      if (product) setProduct({ ...product, fileName: file.name })
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Файл байршуулахад алдаа гарлаа')
     } finally {

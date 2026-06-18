@@ -20,13 +20,24 @@ export default function AdminProductNewPage() {
     setFileMsg('')
     setError('')
     try {
-      const fd = new FormData()
-      fd.append('file', file)
-      const res = await fetch('/api/admin/products/upload-file', { method: 'POST', body: fd })
+      const contentType = file.type || 'application/octet-stream'
+      const res = await fetch('/api/admin/products/upload-file', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename: file.name, contentType }),
+      })
       const data = await res.json()
       if (!res.ok) { setError(data.error); return }
-      setPendingFile({ key: data.key, name: data.fileName })
-      setFileMsg(`✓ ${data.fileName}`)
+
+      const putRes = await fetch(data.uploadUrl, {
+        method: 'PUT',
+        body: file,
+        headers: { 'Content-Type': contentType },
+      })
+      if (!putRes.ok) { setError(`Upload алдаа: ${putRes.status}`); return }
+
+      setPendingFile({ key: data.key, name: file.name })
+      setFileMsg(`✓ ${file.name}`)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Файл байршуулахад алдаа гарлаа')
     } finally {
