@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { prisma } from '@/lib/prisma'
 import { getServerSession } from '@/lib/auth'
+import { randomSales } from '@/lib/course-stats'
 
 async function requireAdmin(req: NextRequest) {
   const session = await getServerSession(req)
@@ -34,7 +35,7 @@ export async function POST(req: NextRequest) {
 
   try {
     const data = createSchema.parse(await req.json())
-    const product = await prisma.product.create({ data })
+    const product = await prisma.product.create({ data: { ...data, displaySales: randomSales() } })
     return NextResponse.json({ product }, { status: 201 })
   } catch (err) {
     if (err instanceof z.ZodError)

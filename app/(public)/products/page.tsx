@@ -14,7 +14,7 @@ export default async function ProductsPage() {
       price: true,
       fileName: true,
       thumbnailUrl: true,
-      _count: { select: { purchases: true } },
+      displaySales: true,
     },
     orderBy: { createdAt: 'desc' },
   })
@@ -55,7 +55,7 @@ export default async function ProductsPage() {
                     <div className="flex items-center justify-between">
                       <span className="text-lg font-bold text-cyan-400">₮{p.price.toLocaleString()}</span>
                       <div className="flex items-center gap-3">
-                        <span className="text-xs text-slate-400 dark:text-gray-500">{p._count.purchases} худалдаа</span>
+                        <span className="text-xs text-slate-400 dark:text-gray-500">{p.displaySales.toLocaleString()} татаж авсан</span>
                         <span className="text-xs bg-purple-600/10 text-purple-600 dark:text-purple-400 border border-purple-500/20 px-2 py-0.5 rounded-full">
                           Татах
                         </span>

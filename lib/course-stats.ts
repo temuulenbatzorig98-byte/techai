@@ -26,5 +26,9 @@ export function randomRating() {
 }
 
 export function randomStudents() {
-  return Math.floor(500 + Math.random() * 501)
+  return Math.floor(1000 + Math.random() * 2001)
+}
+
+export function randomSales() {
+  return Math.floor(1000 + Math.random() * 2001)
 }

@@ -181,6 +181,7 @@ model Product {
   fileName     String
   thumbnailUrl String?
   isPublished  Boolean  @default(false)
+  displaySales Int      @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 

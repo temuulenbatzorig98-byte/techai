@@ -6,7 +6,7 @@ interface Product {
   description: string | null
   price: number
   thumbnailUrl: string | null
-  _count: { purchases: number }
+  displaySales: number
 }
 
 export function ProductsSection({ products }: { products: Product[] }) {
@@ -58,7 +58,7 @@ export function ProductsSection({ products }: { products: Product[] }) {
                     ₮{p.price.toLocaleString()}
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-slate-400 dark:text-gray-500">{p._count.purchases} худалдаа</span>
+                    <span className="text-xs text-slate-400 dark:text-gray-500">{p.displaySales.toLocaleString()} татаж авсан</span>
                     <span className="text-xs bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 px-2 py-0.5 rounded-full">
                       Татах
                     </span>

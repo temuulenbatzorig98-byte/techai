@@ -38,7 +38,7 @@ export default async function HomePage() {
         description: true,
         price: true,
         thumbnailUrl: true,
-        _count: { select: { purchases: true } },
+        displaySales: true,
       },
       orderBy: { createdAt: 'desc' },
       take: 3,
