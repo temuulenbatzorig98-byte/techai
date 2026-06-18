@@ -10,13 +10,30 @@ export default function VerifyPage() {
   const [code, setCode] = useState(['', '', '', '', '', ''])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [resendMsg, setResendMsg] = useState('')
+  const [countdown, setCountdown] = useState(0)
   const inputs = useRef<(HTMLInputElement | null)[]>([])
+  const timerRef = useRef<NodeJS.Timeout | null>(null)
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     setUserId(params.get('userId') || '')
     setEmail(params.get('email') || '')
   }, [])
+
+  useEffect(() => {
+    return () => { if (timerRef.current) clearInterval(timerRef.current) }
+  }, [])
+
+  const startCountdown = () => {
+    setCountdown(60)
+    timerRef.current = setInterval(() => {
+      setCountdown((c) => {
+        if (c <= 1) { clearInterval(timerRef.current!); return 0 }
+        return c - 1
+      })
+    }, 1000)
+  }
 
   const handleChange = (i: number, v: string) => {
     if (!/^\d*$/.test(v)) return
@@ -45,13 +62,26 @@ export default function VerifyPage() {
     const data = await res.json()
     setLoading(false)
 
-    if (!res.ok) {
-      setError(data.error)
-      return
-    }
-
+    if (!res.ok) { setError(data.error); return }
     router.push('/dashboard')
     router.refresh()
+  }
+
+  const handleResend = async () => {
+    if (countdown > 0 || !userId) return
+    setResendMsg('')
+    setError('')
+
+    const res = await fetch('/api/auth/resend-otp', {
+      method: 'POST',
+      body: JSON.stringify({ userId }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+    const data = await res.json()
+
+    if (!res.ok) { setError(data.error); return }
+    setResendMsg('Код дахин илгээгдлээ')
+    startCountdown()
   }
 
   return (
@@ -73,6 +103,11 @@ export default function VerifyPage() {
           {error && (
             <div className="bg-red-500/10 border border-red-500/20 text-red-400 text-sm px-4 py-3 rounded-xl mb-4">
               {error}
+            </div>
+          )}
+          {resendMsg && (
+            <div className="bg-green-500/10 border border-green-500/20 text-green-400 text-sm px-4 py-3 rounded-xl mb-4">
+              {resendMsg}
             </div>
           )}
 
@@ -100,6 +135,16 @@ export default function VerifyPage() {
               {loading ? 'Баталгаажуулж байна...' : 'Баталгаажуулах'}
             </button>
           </form>
+
+          <div className="mt-5">
+            <button
+              onClick={handleResend}
+              disabled={countdown > 0}
+              className="text-sm text-slate-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            >
+              {countdown > 0 ? `Дахин илгээх (${countdown}с)` : 'Код ирсэнгүй? Дахин илгээх'}
+            </button>
+          </div>
         </div>
       </div>
     </div>
