@@ -18,17 +18,27 @@ export default function AdminProductNewPage() {
   const uploadFile = async (file: File) => {
     setFileUploading(true)
     setFileMsg('')
-    const res = await fetch('/api/admin/upload', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ type: 'resource', courseId: 'products', lessonId: `new-${Date.now()}`, filename: file.name, contentType: file.type }),
-    })
-    const data = await res.json()
-    if (!res.ok) { setError(data.error); setFileUploading(false); return }
-    await fetch(data.uploadUrl, { method: 'PUT', body: file, headers: { 'Content-Type': file.type } })
-    setPendingFile({ key: data.key, name: file.name })
-    setFileMsg(`✓ ${file.name}`)
-    setFileUploading(false)
+    setError('')
+    try {
+      const contentType = file.type || 'application/octet-stream'
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'resource', courseId: 'products', lessonId: `new-${Date.now()}`, filename: file.name, contentType }),
+      })
+      const data = await res.json()
+      if (!res.ok) { setError(data.error); return }
+
+      const putRes = await fetch(data.uploadUrl, { method: 'PUT', body: file, headers: { 'Content-Type': contentType } })
+      if (!putRes.ok) { setError(`R2 upload алдаа: ${putRes.status}`); return }
+
+      setPendingFile({ key: data.key, name: file.name })
+      setFileMsg(`✓ ${file.name}`)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Файл байршуулахад алдаа гарлаа')
+    } finally {
+      setFileUploading(false)
+    }
   }
 
   const uploadThumb = async (file: File) => {
