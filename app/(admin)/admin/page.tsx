@@ -15,7 +15,11 @@ export default async function AdminDashboard() {
       prisma.payment.aggregate({ where: { status: 'PAID', paidAt: { gte: monthStart } }, _sum: { amount: true } }),
       prisma.payment.findMany({
         where: { status: 'PAID' },
-        include: { user: { select: { name: true } }, course: { select: { titleMn: true } } },
+        include: {
+          user: { select: { name: true } },
+          course: { select: { titleMn: true, title: true } },
+          product: { select: { title: true } },
+        },
         orderBy: { paidAt: 'desc' },
         take: 8,
       }),
@@ -52,7 +56,7 @@ export default async function AdminDashboard() {
             <div key={p.id} className="flex items-center justify-between py-2 border-b border-white/5">
               <div>
                 <p className="text-sm text-slate-900 dark:text-white">{p.user.name}</p>
-                <p className="text-xs text-slate-500 dark:text-gray-400">{p.course.titleMn}</p>
+                <p className="text-xs text-slate-500 dark:text-gray-400">{p.product?.title ?? p.course?.titleMn ?? p.course?.title ?? '—'}</p>
               </div>
               <div className="text-right">
                 <p className="text-sm font-semibold text-green-400">₮{p.amount.toLocaleString()}</p>

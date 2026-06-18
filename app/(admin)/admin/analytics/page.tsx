@@ -12,7 +12,11 @@ export default async function AdminAnalyticsPage() {
     prisma.payment.aggregate({ where: { status: 'PAID' }, _sum: { amount: true }, _count: true }),
     prisma.payment.findMany({
       where: { status: 'PAID' },
-      include: { user: { select: { name: true } }, course: { select: { titleMn: true } } },
+      include: {
+        user: { select: { name: true } },
+        course: { select: { titleMn: true, title: true } },
+        product: { select: { title: true } },
+      },
       orderBy: { paidAt: 'desc' },
       take: 5,
     }),
@@ -53,7 +57,7 @@ export default async function AdminAnalyticsPage() {
               <div key={p.id} className="flex items-center justify-between py-2 border-b border-white/5">
                 <div>
                   <div className="text-sm text-slate-900 dark:text-white">{p.user.name}</div>
-                  <div className="text-xs text-slate-500 dark:text-gray-400">{p.course.titleMn}</div>
+                  <div className="text-xs text-slate-500 dark:text-gray-400">{p.product?.title ?? p.course?.titleMn ?? p.course?.title ?? '—'}</div>
                 </div>
                 <div className="text-sm text-green-400 font-medium">₮{p.amount.toLocaleString()}</div>
               </div>

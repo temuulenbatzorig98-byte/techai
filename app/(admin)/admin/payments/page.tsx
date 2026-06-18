@@ -3,7 +3,11 @@ import { prisma } from '@/lib/prisma'
 
 export default async function AdminPaymentsPage() {
   const payments = await prisma.payment.findMany({
-    include: { user: { select: { name: true, email: true } }, course: { select: { titleMn: true } } },
+    include: {
+      user: { select: { name: true, email: true } },
+      course: { select: { titleMn: true, title: true } },
+      product: { select: { title: true } },
+    },
     orderBy: { createdAt: 'desc' },
     take: 100,
   })
@@ -48,7 +52,7 @@ export default async function AdminPaymentsPage() {
                     <div className="text-slate-900 dark:text-white font-medium">{p.user.name}</div>
                     <div className="text-slate-400 dark:text-gray-500 text-xs">{p.user.email}</div>
                   </td>
-                  <td className="px-6 py-4 text-slate-700 dark:text-gray-300">{p.course.titleMn}</td>
+                  <td className="px-6 py-4 text-slate-700 dark:text-gray-300">{p.product?.title ?? p.course?.titleMn ?? p.course?.title ?? '—'}</td>
                   <td className="px-6 py-4 text-slate-900 dark:text-white font-medium">₮{p.amount.toLocaleString()}</td>
                   <td className="px-6 py-4">
                     <span className={`px-2 py-1 rounded-full text-xs ${statusColor[p.status]}`}>
