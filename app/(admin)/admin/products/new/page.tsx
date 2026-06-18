@@ -20,20 +20,13 @@ export default function AdminProductNewPage() {
     setFileMsg('')
     setError('')
     try {
-      const contentType = file.type || 'application/octet-stream'
-      const res = await fetch('/api/admin/upload', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ type: 'resource', courseId: 'products', lessonId: `new-${Date.now()}`, filename: file.name, contentType }),
-      })
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await fetch('/api/admin/products/upload-file', { method: 'POST', body: fd })
       const data = await res.json()
       if (!res.ok) { setError(data.error); return }
-
-      const putRes = await fetch(data.uploadUrl, { method: 'PUT', body: file, headers: { 'Content-Type': contentType } })
-      if (!putRes.ok) { setError(`R2 upload алдаа: ${putRes.status}`); return }
-
-      setPendingFile({ key: data.key, name: file.name })
-      setFileMsg(`✓ ${file.name}`)
+      setPendingFile({ key: data.key, name: data.fileName })
+      setFileMsg(`✓ ${data.fileName}`)
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Файл байршуулахад алдаа гарлаа')
     } finally {

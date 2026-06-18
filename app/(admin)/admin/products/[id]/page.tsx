@@ -74,20 +74,22 @@ export default function AdminProductDetailPage() {
     setFileMsg('')
     setError('')
     try {
-      const contentType = file.type || 'application/octet-stream'
-      const res = await fetch(`/api/admin/products/${id}/upload`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ filename: file.name, contentType }),
-      })
+      const fd = new FormData()
+      fd.append('file', file)
+      const res = await fetch('/api/admin/products/upload-file', { method: 'POST', body: fd })
       const data = await res.json()
       if (!res.ok) { setError(data.error); return }
 
-      const putRes = await fetch(data.uploadUrl, { method: 'PUT', body: file, headers: { 'Content-Type': contentType } })
-      if (!putRes.ok) { setError(`R2 upload алдаа: ${putRes.status}`); return }
+      // Update product record with new file key
+      const updateRes = await fetch(`/api/admin/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileKey: data.key, fileName: data.fileName }),
+      })
+      if (!updateRes.ok) { setError('Файлын мэдээлэл хадгалахад алдаа гарлаа'); return }
 
-      setFileMsg(`✓ ${file.name}`)
-      if (product) setProduct({ ...product, fileName: file.name })
+      setFileMsg(`✓ ${data.fileName}`)
+      if (product) setProduct({ ...product, fileName: data.fileName })
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Файл байршуулахад алдаа гарлаа')
     } finally {

@@ -16,6 +16,8 @@ const updateSchema = z.object({
   price: z.number().int().min(0).optional(),
   thumbnailUrl: z.string().optional(),
   isPublished: z.boolean().optional(),
+  fileKey: z.string().optional(),
+  fileName: z.string().optional(),
 })
 
 export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
