@@ -7,6 +7,7 @@ import { ThemeToggle } from './ThemeToggle'
 const NAV = [
   { href: '/admin', label: 'Хяналтын самбар', icon: '📊' },
   { href: '/admin/courses', label: 'Курсууд', icon: '📚' },
+  { href: '/admin/products', label: 'Бүтээгдэхүүн', icon: '📦' },
   { href: '/admin/users', label: 'Хэрэглэгчид', icon: '👥' },
   { href: '/admin/payments', label: 'Төлбөрүүд', icon: '💰' },
   { href: '/admin/coupons', label: 'Купонууд', icon: '🎫' },

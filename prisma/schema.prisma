@@ -24,11 +24,12 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  enrollments Enrollment[]
-  payments    Payment[]
-  progress    LessonProgress[]
-  sessions    Session[]
-  otpCodes    OTPCode[]
+  enrollments      Enrollment[]
+  payments         Payment[]
+  progress         LessonProgress[]
+  sessions         Session[]
+  otpCodes         OTPCode[]
+  productPurchases ProductPurchase[]
 }
 
 enum Role {
@@ -169,12 +170,44 @@ model LessonProgress {
 }
 
 // ─────────────────────────────────────────────
+// DIGITAL PRODUCTS
+// ─────────────────────────────────────────────
+model Product {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?
+  price        Int
+  fileKey      String
+  fileName     String
+  thumbnailUrl String?
+  isPublished  Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  purchases ProductPurchase[]
+  payments  Payment[]
+}
+
+model ProductPurchase {
+  id          String   @id @default(cuid())
+  userId      String
+  productId   String
+  purchasedAt DateTime @default(now())
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+}
+
+// ─────────────────────────────────────────────
 // PAYMENTS (QPAY)
 // ─────────────────────────────────────────────
 model Payment {
   id             String        @id @default(cuid())
   userId         String
-  courseId       String
+  courseId       String?
+  productId      String?
   amount         Int
   currency       String        @default("MNT")
   status         PaymentStatus @default(PENDING)
@@ -187,9 +220,10 @@ model Payment {
   metadata       Json?
   createdAt      DateTime      @default(now())
 
-  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  course Course  @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  coupon Coupon? @relation(fields: [couponId], references: [id])
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  course  Course?  @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  coupon  Coupon?  @relation(fields: [couponId], references: [id])
 }
 
 enum PaymentStatus {

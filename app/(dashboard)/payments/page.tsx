@@ -25,7 +25,10 @@ export default async function PaymentsPage() {
 
   const payments = await prisma.payment.findMany({
     where: { userId: session.userId },
-    include: { course: { select: { titleMn: true } } },
+    include: {
+      course: { select: { titleMn: true, title: true } },
+      product: { select: { title: true } },
+    },
     orderBy: { createdAt: 'desc' },
   })
 
@@ -37,20 +40,27 @@ export default async function PaymentsPage() {
         <div className="text-center py-20 text-slate-400 dark:text-gray-500">Төлбөрийн түүх байхгүй</div>
       ) : (
         <div className="space-y-3">
-          {payments.map((p) => (
-            <div key={p.id} className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-xl p-4 flex items-center justify-between">
-              <div>
-                <p className="text-slate-900 dark:text-white font-medium">{p.course.titleMn}</p>
-                <p className="text-xs text-slate-500 dark:text-gray-400 mt-1">{new Date(p.createdAt).toLocaleDateString('mn-MN')}</p>
+          {payments.map((p) => {
+            const title = p.product?.title ?? p.course?.titleMn ?? p.course?.title ?? '—'
+            const isProduct = !!p.product
+            return (
+              <div key={p.id} className="bg-white dark:bg-[#111827] border border-slate-200 dark:border-white/10 rounded-xl p-4 flex items-center justify-between">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-base">{isProduct ? '📦' : '📚'}</span>
+                    <p className="text-slate-900 dark:text-white font-medium">{title}</p>
+                  </div>
+                  <p className="text-xs text-slate-500 dark:text-gray-400 mt-1">{new Date(p.createdAt).toLocaleDateString('mn-MN')}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-lg font-bold text-cyan-400">₮{p.amount.toLocaleString()}</p>
+                  <span className={`text-xs px-2 py-0.5 rounded-full ${STATUS_COLOR[p.status]}`}>
+                    {STATUS_LABEL[p.status]}
+                  </span>
+                </div>
               </div>
-              <div className="text-right">
-                <p className="text-lg font-bold text-cyan-400">₮{p.amount.toLocaleString()}</p>
-                <span className={`text-xs px-2 py-0.5 rounded-full ${STATUS_COLOR[p.status]}`}>
-                  {STATUS_LABEL[p.status]}
-                </span>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
       )}
     </div>

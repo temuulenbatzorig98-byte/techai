@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 import { verifyToken } from '@/lib/auth'
 
 const AUTH_PATHS = ['/login', '/register', '/forgot-password', '/verify']
-const DASHBOARD_PATHS = ['/dashboard', '/my-courses', '/learn', '/profile', '/payments']
+const DASHBOARD_PATHS = ['/dashboard', '/my-courses', '/my-downloads', '/learn', '/profile', '/payments']
 const ADMIN_PATHS = ['/admin']
 
 export async function middleware(req: NextRequest) {

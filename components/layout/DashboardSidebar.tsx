@@ -25,6 +25,15 @@ const NAV = [
     ),
   },
   {
+    href: '/my-downloads',
+    label: 'Миний татаж авсан',
+    icon: (
+      <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 20 20" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M10 3v10M6 9l4 4 4-4" /><path d="M3 17h14" />
+      </svg>
+    ),
+  },
+  {
     href: '/payments',
     label: 'Төлбөр',
     icon: (

@@ -40,6 +40,7 @@ export default function RegisterPage() {
       return
     }
 
+    hideLoader()
     router.push(`/verify?userId=${data.userId}&email=${encodeURIComponent(form.email)}`)
   }
 

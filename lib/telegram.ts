@@ -14,7 +14,7 @@ export async function sendTelegramMessage(chatId: string, text: string) {
 
 export async function notifyNewPayment(data: {
   userName: string
-  courseTitle: string
+  itemTitle: string
   amount: number
   paymentId: string
 }) {
@@ -22,7 +22,7 @@ export async function notifyNewPayment(data: {
 💰 <b>Шинэ төлбөр!</b>
 
 👤 Хэрэглэгч: ${data.userName}
-📚 Курс: ${data.courseTitle}
+📦 Бараа: ${data.itemTitle}
 💵 Дүн: ₮${data.amount.toLocaleString()}
 🔑 ID: <code>${data.paymentId}</code>
 ⏰ Цаг: ${new Date().toLocaleString('mn-MN')}
@@ -44,14 +44,14 @@ export async function notifyNewUser(data: { name: string; email?: string; phone?
 
 export async function notifyFailedPayment(data: {
   userName: string
-  courseTitle: string
+  itemTitle: string
   amount: number
 }) {
   const msg = `
 ❌ <b>Төлбөр амжилтгүй!</b>
 
 👤 Хэрэглэгч: ${data.userName}
-📚 Курс: ${data.courseTitle}
+📦 Бараа: ${data.itemTitle}
 💵 Дүн: ₮${data.amount.toLocaleString()}
 `
   await sendTelegramMessage(process.env.TELEGRAM_ADMIN_CHAT_ID!, msg)
