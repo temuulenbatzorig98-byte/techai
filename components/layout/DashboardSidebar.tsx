@@ -26,10 +26,10 @@ const NAV = [
   },
   {
     href: '/my-downloads',
-    label: 'Миний татаж авсан',
+    label: 'Бүтээгдэхүүн',
     icon: (
       <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 20 20" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M10 3v10M6 9l4 4 4-4" /><path d="M3 17h14" />
+        <path d="M3 4h14l-1.5 9H4.5L3 4z" /><path d="M3 4L2 1H1" /><circle cx="7" cy="17" r="1" /><circle cx="14" cy="17" r="1" />
       </svg>
     ),
   },
