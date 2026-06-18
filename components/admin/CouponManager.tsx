@@ -33,6 +33,8 @@ export function CouponManager({ coupons: initial }: { coupons: Coupon[] }) {
         discountValue: Number(form.discountValue),
         maxUses: form.maxUses ? Number(form.maxUses) : null,
         code: form.code.toUpperCase(),
+        validFrom: new Date(form.validFrom).toISOString(),
+        validUntil: new Date(form.validUntil).toISOString(),
       }),
       headers: { 'Content-Type': 'application/json' },
     })
